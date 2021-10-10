@@ -1,0 +1,61 @@
+File Manifest for ICPSR 34363
+
+Battle, Juan,  Antonio Jay Pastrana, and Jessie Daniels. Social Justice
+Sexuality Project: 2010 National Survey, including Puerto Rico. ICPSR34363-
+v1. Ann Arbor, MI: Inter-university Consortium for Political and Social
+Research [distributor], 2013-08-09. http://doi.org/10.3886/ICPSR34363.v1
+
+
+Study-level Documentation
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    34363-descriptioncitation.pdf       -       -         -       2014-07-04  -
+
+    34363-related_literature.txt        -       -         -       daily       -
+
+    34363-manifest.txt                  -       -         -       daily       -
+
+    34363-Questionnaire.pdf             -       -         -       2013-08-09  b29c919e89656e08ed348c40e9d854c7
+
+
+DS0001 Public Use Data
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    34363-0001-Codebook.pdf             -       -         -       2013-08-09  ba20f866352081b643c2f38abea8536c
+
+    34363-0001-Data.dta                 -       4,953     304     2013-08-09  ef8a36cc44ad58ee2cfed87730cc5b5e
+
+    34363-0001-Data.rda                 -       4,953     304     2013-08-09  5d5198c3cebab74a23f59981e6e623c1
+
+    34363-0001-Data.sav                 -       4,953     304     2013-08-09  be7a327955a425d21facef1d9c717673
+
+    34363-0001-Data.stc                 -       4,953     304     2013-08-09  f2f536c269ead1c05ba4b1bde9794378
+
+    34363-0001-Data.tsv                 -       4,953     304     2013-08-09  c0c6bc47c40e5eba001393754663bc24
+
+    34363-0001-Data.txt                 3660    4,953     304     2013-08-09  887b432e7b53b4425e32928adc89ff72
+
+    34363-0001-Setup.dct                -       -         -       2013-08-09  6dc4074ebf12a593647b18045438b57c
+
+    34363-0001-Setup.do                 -       -         -       2013-08-09  6700e38884f88001729b2308ca38a573
+
+    34363-0001-Setup.sas                -       -         -       2013-08-09  5b50dab830af628ff1c39b6935aa26b8
+
+    34363-0001-Setup.sps                -       -         -       2013-08-09  7f3e6c48ff7773f9e25c4df96aa21225
+
+    34363-0001-Supplemental_syntax.do   -       -         -       2013-08-09  91e20a67fa1670b3968f01845335b4ad
+
+    34363-0001-Supplemental_syntax.sas  -       -         -       2013-08-09  5b8322304399ff69c25a55756b5bc5df
+
+
+DS0002 Restricted Use Data
+
+    Filename                            Record  Record    Var.    Date        MD5
+                                        Length  Count     Count   Updated     Checksum
+
+    34363-0002-Codebook.pdf             -       -         -       2013-08-09  aabbec6b86bf6bccd4b4d0d48f830ed0
+

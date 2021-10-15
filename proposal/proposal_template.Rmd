@@ -2,7 +2,7 @@
 title: "Project Proposal"
 subtitle: "due October 11, 2021 by 11:59 PM "
 author: "Gi Chun, Jay Nolt, Ashley Bae - Team Jackie Fan Club"
-date: "10/10/2021"
+date: "10/15/2021"
 output: pdf_document
 ---
 
@@ -14,8 +14,8 @@ library(readxl)
 ``` 
 
 # Load Data
-```{r load-data, message = F}
-load( file = "~/Bae_Chun_Nolt_FinalProject/data/ICPSR_34363/DS0001/34363-0001-Data.rda")
+```{r load-data, message = FALSE}
+load(file = "~/sta198/Jackie-Fan-Club/data/ICPSR_34363/DS0001/34363-0001-Data.rda")
 #rename file
 data <- da34363.0001
 ```
@@ -34,15 +34,37 @@ The survey was given via mail questionnaire, on-site questionnaire, and web-base
 # Glimpse
 
 (Please use `glimpse` for your data, uploaded into the data folder, here.)
-```{r}
+```{r select-data}
 dataFiltered <- data %>%
   select(Q15B, Q15C, Q17A, Q17B, Q18A1: Q18A5, Q18C, Q18G, Q18J, Q19A1: Q19A7, Q22A, Q22B, Q25)
-  glimpse(data)
+  glimpse(dataFiltered)
 ```
 
 # Data Analysis Plan
 
 We want to look at health access outcomes for minority identity groups. Specifically, we want to identify if intersectional groups experience worse health outcomes than those who have one minority status. Thus, our outcome variables will include access to health insurance, visits to a regular doctor, and personal health assessment. Our predictors will be race, gender, sexuality. Our comparison groups will be age, education level, and household income. We may choose to specify our scope of analysis to cover fewer variables as we begin to analyze data since we want to focus on highlighting interesting trends. 
+
+Included below is a preliminary data visualization illustrating the types of data that we was collected. This is a series of boxplots, each one representing a group of respondents who reported their personal assessment of their own health. The boxplot summarizes the spread of approximate age. In this case, the general similarities between these groups means this dataset doesn't show evidence of discrimination of health outcomes by age. Our later analyses will look further into unequal access to medical care. This plot also includes the missing data which skews slightly more to older respondents which is a factor to consider when doing any sort of data analysis or drawing conclusions.
+```{r data-viz, echo = FALSE, warnings = FALSE}
+ggplot(data = dataFiltered,
+       aes(x = Q25, y = 2021 - Q18G,
+           color = Q25)) +
+  geom_boxplot() +
+  labs(color = "NULL",
+       y = "Approximate Age",
+       x = "Self-Reported Quality of Health") +
+  theme(
+    axis.text.x = element_text(
+      angle = 45,
+      vjust = 1,
+      hjust = 1,
+      size = 6
+    ),
+    legend.position = "none"
+  )
+```
+
+
 The essential goal for our project is to understand the role of intersectional identities to healthcare access. For example, how does a white, cis, straight man’s access to healthcare differ from a white, cis, homosexual man’s access, a black, cis, straight, man, and so on. We may construct a segmented bar plot of access to health insurance by sexuality, faceted by race. In this way, we can see the trends within different queer minority groups as well as how those trends differ for different racial groups. We can also introduce a socioeconomic component such as income level to show how health access is affected by household income in addition to the identity factors mentioned above. As we run statistical tests and data visualizations, we hope to narrow the scope of our focus to key intersectional groups which help defend or refute our central hypothesis.  
 Statistical methods that we have learned so far that will be useful to answer our questions are t-tests and probability calculations. We expect to apply more statistical methods to our project as we learn more throughout class. We’d also conduct probability tests that would indicate non-independence of identity variables to prove our hypothesis to be true. We are likely to also use a Chi Square and two-way ANOVA test (as we understand them now) as more applicable statistical methods to the kind of data available in our dataset in comparison to the t-test. Overall, to support our hypothesis, the results that we would need include: significant p-values from t-tests and non-independence from our probability tests. We can use these tests to understand the variance in means across the different populations we examine. In our results, a lower p-value than the alpha that we set would deem statistical significance. For an ANOVA test, we would be able to deem the difference as statistically significant if the F statistic is higher than the critical value, which corresponds to the alpha, which is often .05. 
 

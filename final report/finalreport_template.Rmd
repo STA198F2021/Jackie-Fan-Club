@@ -10,6 +10,7 @@ output: pdf_document
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(readxl)
+library(dbplyr)
 ``` 
 
 # Load Data 
@@ -50,6 +51,39 @@ data_filtered2 <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>%
          Q22A,
          Q22B,
          Q25)
+```
+
+```{r renameQuestions}
+data <- data_filtered %>%
+    select(Q17A,
+         Q17B,
+         Q18A1:Q18A5,
+         Q18C,
+         Q18G,
+         Q18J,
+         Q19A1:Q19A7,
+         Q22A,
+         Q22B,
+         Q25) %>%
+  rename(healthInsureAcc = Q17A) %>%
+  rename(healthProvideAcc = Q17B) %>%
+  rename(male = Q18A1) %>%
+  rename(female = Q18A2) %>% 
+  rename(m2f = Q18A3) %>%
+  rename(f2m = Q18A4) %>%
+  rename(genderOther = Q18A5) %>%
+  rename(sexuality = Q18C) %>%
+  mutate(age = 2021 - Q18G) %>%
+  rename(black = Q19A1) %>%
+  rename(hispanic = Q19A2) %>% 
+  rename(asian = Q19A3) %>%
+  rename(native = Q19A4) %>%
+  rename(white = Q19A5) %>%
+  rename(multi = Q19A6) %>%
+  rename(raceOther = Q19A7) %>%
+  rename(edu = Q22A) %>%
+  rename(income = Q22B) %>%
+  rename(assessHealth = Q25)
 ```
 
 ```{r income-hist}

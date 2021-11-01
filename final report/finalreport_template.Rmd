@@ -1,13 +1,12 @@
 ---
 title: "Final Report"
 subtitle: "due November 16, 2021 by 11:59 PM "
-author: "Your names and team name here"
-date: ""
+author: "Ashley Bae, Gi Chun, Jay Nolt"
+date: "November 2021"
 output: pdf_document
 ---
 
 # Load Packages
-
 ```{r load-packages, message = FALSE, warning = FALSE}
 library(tidyverse)
 library(readxl)
@@ -21,27 +20,50 @@ data <- da34363.0001
 ```
 Data Citation: Battle, Juan, Pastrana, Antonio Jay, and Daniels, Jessie. Social Justice Sexuality Project: 2010 National Survey, including Puerto Rico. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2013-08-09. https://doi.org/10.3886/ICPSR34363.v1
 
-
 ```{r select-data}
-dataFiltered <- data %>%
-  select(Q15B, Q15C, Q17A, Q17B, Q18A1: Q18A5, Q18C, Q18G, Q18J, Q19A1: Q19A7, Q22A, Q22B, Q25)
+data_filtered <- data %>%
+  select(Q15B,
+         Q15C,
+         Q17A,
+         Q17B,
+         Q18A1:Q18A5,
+         Q18C,
+         Q18G,
+         Q18J,
+         Q19A1:Q19A7,
+         Q22A,
+         Q22B,
+         Q25)
+
+# remove descriptions and other attributes
+data_filtered <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>% 
+  as.data.frame() %>%
+  select(Q15B,
+         Q15C,
+         Q17A,
+         Q17B,
+         Q18A1:Q18A5,
+         Q18C,
+         Q18G,
+         Q18J,
+         Q19A1:Q19A7,
+         Q22A,
+         Q22B,
+         Q25)
 ```
 
 ```{r income-hist}
-ggplot(dataFiltered, aes(x = Q22B)) +
+ggplot(data_filtered, aes(x = Q22B)) +
   geom_bar(fill = "#228b22") +
-  labs (
-    x = "Reported Income Level",
-    y = "Frequency",
-    title = "Distribution of Respondant Income Levels",
-    ) +
-  theme(axis.text.x = element_text(
-    angle = 45,
-    hjust = 1))
+  labs (x = "Reported Income Level",
+        y = "Frequency",
+        title = "Distribution of Respondant Income Levels",) +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
 ```
 
 ```{r health-insurance-sexuality}
-ggplot(dataFiltered, aes(x = Q18C,
+ggplot(data_filtered, aes(x = Q18C,
                          fill = Q17A)) +
   geom_bar(position = "fill") +
   labs (x = "Sexuality",
@@ -53,7 +75,7 @@ ggplot(dataFiltered, aes(x = Q18C,
 ```
 
 ```{r health-provider-sexuality}
-ggplot(dataFiltered, aes(x = Q18C,
+ggplot(data_filtered, aes(x = Q18C,
                          fill = Q17B)) +
   geom_bar(position = "fill") +
   labs (x = "Sexuality",

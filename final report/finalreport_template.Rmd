@@ -12,7 +12,7 @@ library(tidyverse)
 library(readxl)
 ``` 
 
-# Load Data
+# Load Data 
 ```{r load-data, message = FALSE}
 load(file = "~/sta198/Jackie-Fan-Club/data/ICPSR_34363/DS0001/34363-0001-Data.rda")
 #rename file
@@ -36,7 +36,7 @@ data_filtered <- data %>%
          Q25)
 
 # remove descriptions and other attributes
-data_filtered <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>% 
+data_filtered2 <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>% 
   as.data.frame() %>%
   select(Q15B,
          Q15C,

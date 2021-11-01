@@ -39,3 +39,33 @@ ggplot(dataFiltered, aes(x = Q22B)) +
     angle = 45,
     hjust = 1))
 ```
+
+```{r health-insurance-sexuality}
+ggplot(dataFiltered, aes(x = Q18C,
+fill = Q17A)) +
+geom_bar(position = "fill") +
+labs (
+x = "Sexuality",
+y = "Frequency",
+fill = "Healthcare Insurance Access",
+title = "Distribution of Respondant Sexuality and Healthcare Access"
+) +
+theme(axis.text.x = element_text(
+angle = 45,
+hjust = 1))
+```
+
+```{r health-provider-sexuality}
+ggplot(dataFiltered, aes(x = Q18C,
+fill = Q17B)) +
+geom_bar(position = "fill") +
+labs (
+x = "Sexuality",
+y = "Frequency",
+fill = "Healthcare Provider Access",
+title = "Distribution of Respondant Sexuality and Healthcare Access"
+) +
+theme(axis.text.x = element_text(
+angle = 45,
+hjust = 1))
+```

@@ -168,3 +168,28 @@ ggplot(data, aes(x = sexuality,
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
+
+
+```{r health-insurance-gender}
+ggplot(data, aes(x = gender,
+                         fill = healthInsureAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Gender",
+        y = "Frequency",
+        fill = "Healthcare Insurance Access",
+        title = "Distribution of Respondant Gender and Healthcare Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+
+```{r health-provider-gender}
+ggplot(data, aes(x = gender,
+                         fill = healthProvideAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Gender",
+        y = "Frequency",
+        fill = "Healthcare Provider Access",
+        title = "Distribution of Respondant Gender and Healthcare Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```

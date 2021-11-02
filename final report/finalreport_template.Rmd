@@ -30,7 +30,6 @@ data_filtered <- data %>%
          Q18A1:Q18A5,
          Q18C,
          Q18G,
-         Q18J,
          Q19A1:Q19A7,
          Q22A,
          Q22B,
@@ -46,7 +45,6 @@ data_filtered2 <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>%
          Q18A1:Q18A5,
          Q18C,
          Q18G,
-         Q18J,
          Q19A1:Q19A7,
          Q22A,
          Q22B,
@@ -60,7 +58,6 @@ data <- data_filtered %>%
          Q18A1:Q18A5,
          Q18C,
          Q18G,
-         Q18J,
          Q19A1:Q19A7,
          Q22A,
          Q22B,
@@ -86,8 +83,24 @@ data <- data_filtered %>%
   rename(assessHealth = Q25)
 ```
 
+```{r creatingGender}
+data <- data %>%
+  mutate(male = if_else(male == "(1) Yes", "male", "")) %>%
+  mutate(female = if_else(female == "(1) Yes", "female", "")) %>%  
+  mutate(m2f = if_else(m2f == "(1) Yes", "m2f", "")) %>%
+  mutate(f2m = if_else(f2m == "(1) Yes", "f2m", "")) %>%
+  mutate(genderOther = if_else(genderOther == "(1) Yes", "other", "")) %>%
+  mutate(gender = "")
+
+data$gender <- paste(data$male, data$female)
+data$gender <- paste(data$gender, data$m2f)
+data$gender <- paste(data$gender, data$f2m)
+data$gender <- paste(data$gender, data$genderOther)
+```
+
+
 ```{r income-hist}
-ggplot(data_filtered, aes(x = Q22B)) +
+ggplot(data, aes(x = income)) +
   geom_bar(fill = "#228b22") +
   labs (x = "Reported Income Level",
         y = "Frequency",
@@ -97,8 +110,8 @@ ggplot(data_filtered, aes(x = Q22B)) +
 ```
 
 ```{r health-insurance-sexuality}
-ggplot(data_filtered, aes(x = Q18C,
-                         fill = Q17A)) +
+ggplot(data, aes(x = sexuality,
+                         fill = healthInsureAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Sexuality",
         y = "Frequency",
@@ -109,8 +122,8 @@ ggplot(data_filtered, aes(x = Q18C,
 ```
 
 ```{r health-provider-sexuality}
-ggplot(data_filtered, aes(x = Q18C,
-                         fill = Q17B)) +
+ggplot(data, aes(x = sexuality,
+                         fill = healthProvideAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Sexuality",
         y = "Frequency",

@@ -85,26 +85,62 @@ data <- data_filtered %>%
 
 ```{r creatingGender}
 data <- data %>%
-  mutate(male = if_else(male == "(1) Yes", "male", "")) %>%
-  mutate(female = if_else(female == "(1) Yes", "female", "")) %>%  
-  mutate(m2f = if_else(m2f == "(1) Yes", "m2f", "")) %>%
-  mutate(f2m = if_else(f2m == "(1) Yes", "f2m", "")) %>%
-  mutate(genderOther = if_else(genderOther == "(1) Yes", "other", "")) %>%
-  mutate(gender = "")
+  mutate(male = case_when(
+  male == "(1) Yes" ~ "male",
+  is.na(male) ~ "",
+  TRUE ~ ""), 
+  female = case_when(
+  female == "(1) Yes" ~ "female",
+  is.na(female) ~ "",
+  TRUE ~ ""), 
+  m2f = case_when(
+  m2f == "(1) Yes" ~ "m2f",
+  is.na(m2f) ~ "",
+  TRUE ~ ""), 
+  f2m = case_when(
+  f2m == "(1) Yes" ~ "f2m",
+  is.na(f2m) ~ "",
+  TRUE ~ ""), 
+  genderOther = case_when(
+  genderOther == "(1) Yes" ~ "Other",
+  is.na(genderOther) ~ "",
+  TRUE ~ ""), 
+  gender = ""
+) 
 
 data$gender <- paste(data$male, data$female)
 data$gender <- paste(data$gender, data$m2f)
 data$gender <- paste(data$gender, data$f2m)
 data$gender <- paste(data$gender, data$genderOther)
+
+data$gender <- trimws(data$gender)
+
+data <- data %>%
+mutate(gender = case_when(
+  gender == "male" ~ "Male",
+  gender == "female" ~ "Female",
+  gender == "m2f" ~ "Transgender: Male to Female",
+  gender == "f2m" ~ "Transgender: Female to Male",
+  TRUE ~ "Other")
+)
 ```
 
-
-```{r income-hist}
+```{r income-barplot}
 ggplot(data, aes(x = income)) +
   geom_bar(fill = "#228b22") +
   labs (x = "Reported Income Level",
         y = "Frequency",
         title = "Distribution of Respondant Income Levels",) +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+
+```{r gender-barplot}
+ggplot(data, aes(x = gender)) +
+  geom_bar(fill = "light blue") +
+  labs (x = "Gender",
+        y = "Frequency",
+        title = "Distribution of Respondant Gender",) +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```

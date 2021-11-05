@@ -1,6 +1,6 @@
 ---
 title: "Final Report"
-subtitle: "due November 16, 2021 by 11:59 PM "
+subtitle: "due November 16, 2021 by 11:59 PM"
 author: "Ashley Bae, Gi Chun, Jay Nolt"
 date: "November 2021"
 output: pdf_document
@@ -11,6 +11,7 @@ output: pdf_document
 library(tidyverse)
 library(readxl)
 library(dbplyr)
+library(ggplot2)
 ``` 
 
 # Load Data 
@@ -130,7 +131,7 @@ ggplot(data, aes(x = income)) +
   geom_bar(fill = "#228b22") +
   labs (x = "Reported Income Level",
         y = "Frequency",
-        title = "Distribution of Respondant Income Levels",) +
+        title = "Distribution of Respondant Income Levels") +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
@@ -140,7 +141,7 @@ ggplot(data, aes(x = gender)) +
   geom_bar(fill = "light blue") +
   labs (x = "Gender",
         y = "Frequency",
-        title = "Distribution of Respondant Gender",) +
+        title = "Distribution of Respondant Gender") +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
@@ -150,7 +151,15 @@ gendertable <- table(data$gender)
 lbls <- paste(names(gendertable), "\n", gendertable, sep="")
 pie(gendertable, labels = lbls,
    main="Pie Chart of Gender Distribution of Respondents") 
+
+# attempt at ggplot2 way...  
+ggplot(data, aes(x = "", y = gender, fill = "gender")) +
+  coord_polar(theta = "y")
+
+  #geom_label_repel(nudge_y = 1, direction = "y", hjust = 1) #for if label needs adjusting?
+
 ```
+This pie chart depicts respondents' gender identities. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals. 
 
 
 ```{r health-insurance-sexuality}
@@ -166,7 +175,20 @@ ggplot(data, aes(x = sexuality,
 ```
 
 ```{r health-provider-sexuality}
-ggplot(data, aes(x = sexuality,
+data %>%
+ggplot(aes(x = sexuality,
+                         fill = healthProvideAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Sexuality",
+        y = "Frequency",
+        fill = "Healthcare Provider Access",
+        title = "Distribution of Respondant Sexuality and Healthcare Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) 
+
+data %>%
+  filter(is.na(healthProvideAcc) == FALSE) %>% 
+ggplot(aes(x = sexuality,
                          fill = healthProvideAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Sexuality",
@@ -179,7 +201,9 @@ ggplot(data, aes(x = sexuality,
 
 
 ```{r health-insurance-gender}
-ggplot(data, aes(x = gender,
+data %>%
+  filter(is.na(healthInsureAcc) == FALSE) %>% 
+ggplot(aes(x = gender,
                          fill = healthInsureAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Gender",
@@ -199,5 +223,20 @@ ggplot(data, aes(x = gender,
         fill = "Healthcare Provider Access",
         title = "Distribution of Respondant Gender and Healthcare Access") +
   theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1))
+                                   hjust = 1)) 
+
+
+#filtered
+data %>%
+  filter(is.na(healthProvideAcc) == FALSE) %>% 
+  ggplot(aes(x = gender,
+                         fill = healthProvideAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Gender",
+        y = "Frequency",
+        fill = "Healthcare Provider Access",
+        title = "Distribution of Respondant Gender and Healthcare Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) 
 ```
+These are responses according to gender when asked, "Do you have a regular doctor or health care provider?" The visualization shows that a greater percentage of transgender individuals answered "no" than cisgender individuals. Also, note that there are more missing values for transgendered individuals than cisgendered respondents, which may provide more insight to the disparity.  

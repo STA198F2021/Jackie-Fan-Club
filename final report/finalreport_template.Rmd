@@ -144,6 +144,14 @@ ggplot(data, aes(x = gender)) +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
+```{r gender-pie-chart}
+# Pie Chart with Percentages
+gendertable <- table(data$gender)
+lbls <- paste(names(gendertable), "\n", gendertable, sep="")
+pie(gendertable, labels = lbls,
+   main="Pie Chart of Gender Distribution of Respondents") 
+```
+
 
 ```{r health-insurance-sexuality}
 ggplot(data, aes(x = sexuality,

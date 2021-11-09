@@ -136,6 +136,8 @@ ggplot(data, aes(x = income)) +
                                    hjust = 1))
 ```
 
+We visualized income distribution of respondents in this study. The mode income bracket, with the greatest number of people, is $50,000-$74,999. The distribution has a left skew with the majority of the data in the upper ranges $20,000 and over. The bracket with the lowest count was $13,500-$14,999. Of the respondents, there were 4953 with income data, and there were 351 people for whom we didn't have income data. 
+
 ```{r gender-barplot}
 ggplot(data, aes(x = gender)) +
   geom_bar(fill = "light blue") +
@@ -159,12 +161,24 @@ ggplot(data, aes(x = "", y = gender, fill = "gender")) +
   #geom_label_repel(nudge_y = 1, direction = "y", hjust = 1) #for if label needs adjusting?
 
 ```
-This pie chart depicts respondents' gender identities. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals. 
-
+We visualized gender identities of participants with a pie chart. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
 
 ```{r health-insurance-sexuality}
 ggplot(data, aes(x = sexuality,
-                         fill = healthInsureAcc)) +
+                 fill = healthInsureAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Sexuality",
+        y = "Frequency",
+        fill = "Healthcare Insurance Access",
+        title = "Distribution of Respondant Sexuality and Healthcare Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+data %>% 
+  filter(!is.na(healthInsureAcc), 
+         !is.na(sexuality) 
+         ) %>%
+  ggplot(aes(x = sexuality,
+           fill = healthInsureAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Sexuality",
         y = "Frequency",
@@ -173,6 +187,10 @@ ggplot(data, aes(x = sexuality,
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
+
+We used a segmented bar graph to visualize sexuality of respondents and their access to healthcare. The differences are not so visually distinct, especially when attempting to compare straight/heterosexual individuals to other historically and presently marginalized sexual identities. This is especially so in groups with many NA responses. In addition, the multitude of identities of sexuality which also may overlap or have culturally distinct attributes may complicate data analysis. The respondants are also prompted to choose only one identity, to the question "Which one label comes closest to how you describe your sexual identity?" 
+
+In the second visualization of sexuality and access to healthcare, we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
 
 ```{r health-provider-sexuality}
 data %>%
@@ -202,17 +220,18 @@ ggplot(aes(x = sexuality,
 
 ```{r health-insurance-gender}
 data %>%
-  filter(is.na(healthInsureAcc) == FALSE) %>% 
 ggplot(aes(x = gender,
-                         fill = healthInsureAcc)) +
+          fill = healthInsureAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Gender",
         y = "Frequency",
         fill = "Healthcare Insurance Access",
-        title = "Distribution of Respondant Gender and Healthcare Access") +
+        title = "Relationship of Gender and Healthcare Insurance Access") +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
+
+
 
 ```{r health-provider-gender}
 ggplot(data, aes(x = gender,
@@ -221,22 +240,8 @@ ggplot(data, aes(x = gender,
   labs (x = "Gender",
         y = "Frequency",
         fill = "Healthcare Provider Access",
-        title = "Distribution of Respondant Gender and Healthcare Access") +
-  theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1)) 
-
-
-#filtered
-data %>%
-  filter(is.na(healthProvideAcc) == FALSE) %>% 
-  ggplot(aes(x = gender,
-                         fill = healthProvideAcc)) +
-  geom_bar(position = "fill") +
-  labs (x = "Gender",
-        y = "Frequency",
-        fill = "Healthcare Provider Access",
-        title = "Distribution of Respondant Gender and Healthcare Access") +
+        title = "Relationship of Gender and Healthcare Provider Access") +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1)) 
 ```
-These are responses according to gender when asked, "Do you have a regular doctor or health care provider?" The visualization shows that a greater percentage of transgender individuals answered "no" than cisgender individuals. Also, note that there are more missing values for transgendered individuals than cisgendered respondents, which may provide more insight to the disparity.  
+In the above segmented bar graphs, respondents respond to "Do you have health insurance?" and "Do you have a regular doctor or health care provider?", respectively. The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of F2M tansgender individuals. Also, when comparing the gender groups, note that there are more missing values for transgendered individuals than cisgendered respondents for both access to insurance and regular healthcare provider, which may provide more insight to the disparity. It appears that one's gender identity may have a relationship to access to healthcare. 

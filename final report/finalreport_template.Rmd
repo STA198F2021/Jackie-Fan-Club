@@ -126,19 +126,8 @@ mutate(gender = case_when(
 )
 ```
 
-```{r income-barplot}
-ggplot(data, aes(x = income)) +
-  geom_bar(fill = "#228b22") +
-  labs (x = "Reported Income Level",
-        y = "Frequency",
-        title = "Distribution of Respondant Income Levels") +
-  theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1))
-```
 
-We visualized income distribution of respondents in this study. The mode income bracket, with the greatest number of people, is $50,000-$74,999. The distribution has a left skew with the majority of the data in the upper ranges $20,000 and over. The bracket with the lowest count was $13,500-$14,999. Of the respondents, there were 4953 with income data, and there were 351 people for whom we didn't have income data. 
-
-```{r gender-barplot}
+```{r gender-barplot, echo = FALSE}
 ggplot(data, aes(x = gender)) +
   geom_bar(fill = "light blue") +
   labs (x = "Gender",
@@ -147,32 +136,8 @@ ggplot(data, aes(x = gender)) +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
-```{r gender-pie-chart}
-# Pie Chart with Percentages
-gendertable <- table(data$gender)
-lbls <- paste(names(gendertable), "\n", gendertable, sep="")
-pie(gendertable, labels = lbls,
-   main="Pie Chart of Gender Distribution of Respondents") 
 
-# attempt at ggplot2 way...  
-ggplot(data, aes(x = "", y = gender, fill = "gender")) +
-  coord_polar(theta = "y")
-
-  #geom_label_repel(nudge_y = 1, direction = "y", hjust = 1) #for if label needs adjusting?
-
-```
-We visualized gender identities of participants with a pie chart. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
-
-```{r health-insurance-sexuality}
-ggplot(data, aes(x = sexuality,
-                 fill = healthInsureAcc)) +
-  geom_bar(position = "fill") +
-  labs (x = "Sexuality",
-        y = "Frequency",
-        fill = "Healthcare Insurance Access",
-        title = "Distribution of Respondant Sexuality and Healthcare Access") +
-  theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1))
+```{r health-insurance-sexuality, echo = FALSE}
 data %>% 
   filter(!is.na(healthInsureAcc), 
          !is.na(sexuality) 
@@ -192,18 +157,7 @@ We used a segmented bar graph to visualize sexuality of respondents and their ac
 
 In the second visualization of sexuality and access to healthcare, we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
 
-```{r health-provider-sexuality}
-data %>%
-ggplot(aes(x = sexuality,
-                         fill = healthProvideAcc)) +
-  geom_bar(position = "fill") +
-  labs (x = "Sexuality",
-        y = "Frequency",
-        fill = "Healthcare Provider Access",
-        title = "Distribution of Respondant Sexuality and Healthcare Access") +
-  theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1)) 
-
+```{r health-provider-sexuality, echo = FALSE}
 data %>%
   filter(is.na(healthProvideAcc) == FALSE) %>% 
 ggplot(aes(x = sexuality,
@@ -218,8 +172,9 @@ ggplot(aes(x = sexuality,
 ```
 
 
-```{r health-insurance-gender}
+```{r health-insurance-gender, echo = FALSE}
 data %>%
+  filter(is.na(healthInsureAcc) == FALSE) %>% 
 ggplot(aes(x = gender,
           fill = healthInsureAcc)) +
   geom_bar(position = "fill") +
@@ -233,9 +188,10 @@ ggplot(aes(x = gender,
 
 
 
-```{r health-provider-gender}
-ggplot(data, aes(x = gender,
-                         fill = healthProvideAcc)) +
+```{r health-provider-gender, echo = FALSE}
+data %>%
+  filter(is.na(healthProvideAcc) == FALSE) %>% 
+ggplot(aes(x = gender, fill = healthProvideAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Gender",
         y = "Frequency",

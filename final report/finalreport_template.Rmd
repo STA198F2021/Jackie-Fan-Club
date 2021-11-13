@@ -202,3 +202,18 @@ ggplot(aes(x = gender, fill = healthProvideAcc)) +
 ```
 
 In the above segmented bar graphs, respondents respond to "Do you have health insurance?" and "Do you have a regular doctor or health care provider?", respectively. The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of F2M tansgender individuals. Also, when comparing the gender groups, note that there are more missing values for transgendered individuals than cisgendered respondents for both access to insurance and regular healthcare provider, which may provide more insight to the disparity. It appears that one's gender identity may have a relationship to access to healthcare. 
+
+```{r overall-anova}
+summary(aov(Q18C~Q25,data=data_filtered2))
+```
+```{r stepdown-anova}
+sexpair <- pairwise.t.test(data_filtered2$Q18C,data_filtered2$Q25, p.adj = "holm")
+sigpairs <- broom::tidy(sexpair) %>%
+  filter(p.value<0.05) %>%
+  arrange(group1,group2)
+nrow(sigpairs)
+print(sigpairs)
+```
+4: 2-spirit
+5: queer
+

@@ -89,3 +89,5 @@ Questions we chose to tentatively analyze:
 22b - household income
 25 - personal assessment of health
 
+
+

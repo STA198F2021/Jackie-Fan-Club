@@ -1,7 +1,7 @@
 ---
 title: "Final Report"
 subtitle: "due November 16, 2021 by 11:59 PM"
-author: "Jackie Fan Club: Ashley Bae, Gi Chun, Jay Nolt"
+author: "Ashley Bae, Gi Chun, Jay Nolt"
 date: "November 2021"
 output: pdf_document
 ---
@@ -16,14 +16,14 @@ library(ggplot2)
 ``` 
 
 # Load Data 
-```{r load-data, message = FALSE}
+```{r load-data}
 load(file = "~/sta198/Jackie-Fan-Club/data/ICPSR_34363/DS0001/34363-0001-Data.rda")
 #rename file
 data <- da34363.0001
 ```
 Data Citation: Battle, Juan, Pastrana, Antonio Jay, and Daniels, Jessie. Social Justice Sexuality Project: 2010 National Survey, including Puerto Rico. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2013-08-09. https://doi.org/10.3886/ICPSR34363.v1
 
-```{r select-data}
+```{r select-data, echo = FALSE}
 data_filtered <- data %>%
   select(Q15B,
          Q15C,
@@ -36,7 +36,6 @@ data_filtered <- data %>%
          Q22A,
          Q22B,
          Q25)
-
 # remove descriptions and other attributes
 data_filtered2 <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>% 
   as.data.frame() %>%
@@ -53,8 +52,8 @@ data_filtered2 <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>%
          Q25)
 ```
 
-```{r renameQuestions}
-data <- data_filtered %>%
+```{r renameQuestions, echo = FALSE}
+data_big <- data_filtered %>%
     select(Q17A,
          Q17B,
          Q18A1:Q18A5,
@@ -85,8 +84,8 @@ data <- data_filtered %>%
   rename(assessHealth = Q25)
 ```
 
-```{r creatingGender}
-data <- data %>%
+```{r creatingGender, echo = FALSE}
+data <- data_big %>%
   mutate(male = case_when(
   male == "(1) Yes" ~ "male",
   is.na(male) ~ "",
@@ -109,14 +108,11 @@ data <- data %>%
   TRUE ~ ""), 
   gender = ""
 ) 
-
 data$gender <- paste(data$male, data$female)
 data$gender <- paste(data$gender, data$m2f)
 data$gender <- paste(data$gender, data$f2m)
 data$gender <- paste(data$gender, data$genderOther)
-
 data$gender <- trimws(data$gender)
-
 data <- data %>%
 mutate(gender = case_when(
   gender == "male" ~ "Male",
@@ -124,6 +120,59 @@ mutate(gender = case_when(
   gender == "m2f" ~ "Transgender: Male to Female",
   gender == "f2m" ~ "Transgender: Female to Male",
   TRUE ~ "Other")
+)
+```
+
+```{r creatingRace, echo = FALSE}
+data <- data %>%
+  mutate(black = case_when(
+  black == "(1) Yes" ~ "black",
+  is.na(male) ~ "",
+  TRUE ~ ""), 
+  hispanic = case_when(
+  hispanic == "(1) Yes" ~ "hispanic",
+  is.na(hispanic) ~ "",
+  TRUE ~ ""), 
+  asian = case_when(
+  asian == "(1) Yes" ~ "asian",
+  is.na(asian) ~ "",
+  TRUE ~ ""), 
+  native = case_when(
+  native == "(1) Yes" ~ "native",
+  is.na(native) ~ "",
+  TRUE ~ ""), 
+  white = case_when(
+  white == "(1) Yes" ~ "white",
+  is.na(white) ~ "",
+  TRUE ~ ""), 
+  multi = case_when(
+  multi == "(1) Yes" ~ "multi",
+  is.na(multi) ~ "",
+  TRUE ~ ""), 
+  raceOther = case_when(
+  raceOther == "(1) Yes" ~ "Other",
+  is.na(raceOther) ~ "",
+  TRUE ~ ""), 
+  race = ""
+) 
+data$race <- paste(data$black, data$hispanic)
+data$race <- paste(data$race, data$asian)
+data$race <- paste(data$race, data$native)
+data$race <- paste(data$race, data$white)
+data$race <- paste(data$race, data$multi)
+data$race <- paste(data$race, data$raceOther)
+data$race <- trimws(data$race)
+data <- data %>%
+mutate(race = case_when(
+  race == "black" ~ "Black",
+  race == "hispanic" ~ "Hispanic",
+  race == "asian" ~ "Asian",
+  race == "native" ~ "Native",
+  race == "white" ~ "White",
+  race == "multi" ~ "Multiracial",
+  race == "other" ~ "Other",
+  race == "" ~ "Other",
+  TRUE ~ "Multiracial")
 )
 ```
 
@@ -136,7 +185,17 @@ ggplot(data, aes(x = gender)) +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
-
+```{r gender-pie-chart}
+# Pie Chart with Percentages
+gendertable <- table(data$gender)
+lbls <- paste(names(gendertable), "\n", gendertable, sep="")
+pie(gendertable, labels = lbls,
+   main="Pie Chart of Gender Distribution of Respondents") 
+# attempt at ggplot2 way...  
+ggplot(data, aes(x = "", y = gender, fill = "gender")) +
+  coord_polar(theta = "y")
+  #geom_label_repel(nudge_y = 1, direction = "y", hjust = 1) #for if label needs adjusting?
+```
 We visualized gender identities of participants with a pie chart. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
 
 ```{r health-insurance-sexuality}
@@ -166,7 +225,7 @@ data %>%
 
 We used a segmented bar graph to visualize sexuality of respondents and their access to healthcare. The differences are not so visually distinct, especially when attempting to compare straight/heterosexual individuals to other historically and presently marginalized sexual identities. This is especially so in groups with many NA responses. In addition, the multitude of identities of sexuality which also may overlap or have culturally distinct attributes may complicate data analysis. The respondants are also prompted to choose only one identity, to the question "Which one label comes closest to how you describe your sexual identity?" 
 
-In the included visualization of sexuality and access to healthcare, we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
+In the second visualization of sexuality and access to healthcare, we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
 
 ```{r health-provider-sexuality}
 data %>%
@@ -179,7 +238,6 @@ ggplot(aes(x = sexuality,
         title = "Distribution of Respondant Sexuality and Healthcare Access") +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1)) 
-
 data %>%
   filter(is.na(healthProvideAcc) == FALSE) %>% 
 ggplot(aes(x = sexuality,
@@ -190,9 +248,7 @@ ggplot(aes(x = sexuality,
         fill = "Healthcare Provider Access",
         title = "Distribution of Respondant Sexuality and Healthcare Access") +
   theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1)) 
-
-table(data$sexuality, data$healthProvideAcc)
+                                   hjust = 1))
 ```
 
 
@@ -209,6 +265,7 @@ ggplot(aes(x = gender,
                                    hjust = 1))
 ```
 
+
 ```{r health-provider-gender}
 ggplot(data, aes(x = gender,
                          fill = healthProvideAcc)) +
@@ -220,15 +277,28 @@ ggplot(data, aes(x = gender,
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1)) 
 ```
+
 In the above segmented bar graphs, respondents respond to "Do you have health insurance?" and "Do you have a regular doctor or health care provider?", respectively. The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of F2M tansgender individuals. Also, when comparing the gender groups, note that there are more missing values for transgendered individuals than cisgendered respondents for both access to insurance and regular healthcare provider, which may provide more insight to the disparity. It appears that one's gender identity may have a relationship to access to healthcare. 
 
 # Data Analysis 
 
-To evaluate impacts of intersectional identities on health outcomes, we ran a few statistical tests. 
+To evaluate statistically significant impacts on health outcomes due to sexuality, gender, race, and intersectional identities, we ran a few statistical tests. 
 
-Sexuality: strait/heterosexual vs queer (all other sexualities.. hard to distinguish)
-Gender: cisgender vs transgender 
-Race: keep each group 
+# we may not need this?? To first observe statistical significance of variables
+
+```{r chi-sq, warning = FALSE}
+observed_chisq_statistic <- data %>%
+  specify(healthInsureAcc ~ sexuality) %>%
+  calculate(stat = "Chisq") 
+
+#fisher.test(data$healthInsureAcc,data$sexuality, simulate.p.value = TRUE) 
+```
+
+We recognize the limitations of not only the collection method, e.g. allowing for only one answer to a question with many options that are not necessarily mutually exclusive, but also fitting identity, neither quantifiable nor simple, for the sake of data analysis. 
+
+Sexuality took the value of 0 if straight/heterosexual, and 1 if of another sexuality in response to the question "Which one label comes closest to how you describe your sexual identity?".  
+Gender took the value of 1 if transgender (F2M or M2F), cisgender (female or male). 
+For race, we kept each group to recognize the different experiences of the socially constructed categories. 
 
 ```{r logistic-regression}
 data_fit <- data %>%
@@ -253,39 +323,61 @@ data_fit <- data %>%
 # tidy(insurance_fit_multi,
 #      conf.int = TRUE,
 #      exponentiate = TRUE) 
+# 
+# insurance_fit_multi_select <- logistic_reg() %>%
+#   set_engine("glm") %>%
+#   fit(
+#     healthInsureAcc ~ GENDER + BLACK + HISPANIC + ASIAN + NATIVE,
+#     data = data_fit,
+#     family = "binomial"
+#   )
+# tidy(insurance_fit_multi_select,
+#      conf.int = TRUE,
+#      exponentiate = TRUE) 
+# 
+# insurance_fit_multi_interact <- logistic_reg() %>%
+#   set_engine("glm") %>%
+#   fit(
+#     healthInsureAcc ~ GENDER*BLACK + GENDER*HISPANIC + GENDER*ASIAN + GENDER*NATIVE,
+#     data = data_fit,
+#     family = "binomial"
+#   )
+# tidy(insurance_fit_multi_interact,
+#      conf.int = TRUE,
+#      exponentiate = TRUE) 
 
-insurance_fit_multi_select <- logistic_reg() %>%
+insurancefit <- logistic_reg() %>%
   set_engine("glm") %>%
-  fit(
-    healthInsureAcc ~ GENDER + BLACK + HISPANIC + ASIAN + NATIVE,
-    data = data_fit,
-    family = "binomial"
-  )
-tidy(insurance_fit_multi_select,
-     conf.int = TRUE,
-     exponentiate = TRUE) 
+  fit(healthInsureAcc ~ race + gender,
+      data = data, family = "binomial") 
 
-insurance_fit_multi_interact <- logistic_reg() %>%
+tidy(insurancefit, conf.int = TRUE, exponentiate = TRUE) 
+
+
+
+providerfit <- logistic_reg() %>%
   set_engine("glm") %>%
-  fit(
-    healthInsureAcc ~ GENDER*BLACK + GENDER*HISPANIC + GENDER*ASIAN + GENDER*NATIVE,
-    data = data_fit,
-    family = "binomial"
-  )
-tidy(insurance_fit_multi_interact,
-     conf.int = TRUE,
-     exponentiate = TRUE)
+  fit(healthProvideAcc ~ race + gender,
+      data = data, family = "binomial") 
 
+tidy(insurancefit, conf.int = TRUE, exponentiate = TRUE) 
 ```
 
 We removed variables that are statistically insignificant when evaluating p values, which were sexuality (whether someone identified as straight/heterosexual or other sexualities), being multiracial, and being of "other" racial categories than options given on the survey. 
 
 We conducted another multiple regression with interaction terms, in order to evaluate intersection of gender and race groups. 
 
-```{r chi-sq, warning = FALSE}
-observed_chisq_statistic <- data %>%
-  specify(healthInsureAcc ~ sexuality) %>%
-  calculate(stat = "Chisq") 
-
-#fisher.test(data$healthInsureAcc,data$sexuality, simulate.p.value = TRUE) 
+```{r overall-anova}
+summary(aov(Q18C~Q25,data=data_filtered2))
 ```
+```{r stepdown-anova}
+sexpair <- pairwise.t.test(data_filtered2$Q18C,data_filtered2$Q25, p.adj = "holm")
+sigpairs <- broom::tidy(sexpair) %>%
+  filter(p.value<0.05) %>%
+  arrange(group1,group2)
+nrow(sigpairs)
+print(sigpairs)
+```
+4: 2-spirit
+5: queer
+

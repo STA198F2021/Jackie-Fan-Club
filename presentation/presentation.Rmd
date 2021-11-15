@@ -1,6 +1,6 @@
 ---
 title: "Investigating the Effect of Sex, Race, and Gender Identities on Health Outcomes"
-subtitle: "Presentation subtitle (if any)"
+subtitle: "Working with data from the Social Justice Sexuality Project"
 author: "Jackie Fan Club <br> Ashley Bae, Gi Chun, Jay Nolt"
 institute: "Duke University"
 date: "`r Sys.Date()`"
@@ -45,15 +45,67 @@ data <- da34363.0001
 
 ```{r style-slides, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "img/watercolour_sys02_img34_teacup-ocean.jpg"
+  title_slide_background_image = "img/flag1.jpg",
+  title_slide_text_color = "black"
 )
 ```
 
 class: inverse, middle, center
 
-# Background
+# Background, Data, and Research Question
 
 ---
+
+## Background
+
+We chose this topic because we want to highlight interesting trends in intersectional inequality between historically marginalized identities within race, sexuality, and gender. We are motivated to ask our question from backgrounds of interest in health, racial justice, and wanting to examine US-based data. 
+
+---
+
+## Data
+
+Our project uses data collected by the Social Justice Sexuality Project (SJS) through the University of Michigan’s Resource Center for Minority Data
+
+--
+
+- surveyed over 5,000 participants
+
+- from January of 2010 to December of 2010
+
+- respondents were Black, Latina/o, Asian and Pacific Islander, and multiracial lesbian, gay, bisexual, and transgender (LGBT) people in 50 US states and Puerto Rico
+
+- survey given via mail questionnaire, on-site questionnaire, and web-based survey in Spanish and English depending on the respondent. 
+
+---
+
+## Preliminary Data Visualizations
+
+
+
+---
+
+## Research Question
+
+Central research question:
+- How do sexuality, race, and gender affect healthcare access?
+
+--
+
+We followed up by asking:
+- Are marginalized groups disadvantaged in their health outcomes? 
+
+- How much more significant are the disparities at intersections of more than one marginalized identity? 
+
+---
+
+# Data Analysis
+
+
+---
+
+# Findings
+
+
 
 ## The Study
 

@@ -51,11 +51,11 @@ style_xaringan(
 
 class: inverse, middle, center
 
-# Using xaringan
+# Background
 
 ---
 
-## xaringan
+## The Study
 
 - The presentation is created using the `xaringan` package
 

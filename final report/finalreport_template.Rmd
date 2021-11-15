@@ -185,29 +185,9 @@ ggplot(data, aes(x = gender)) +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
-```{r gender-pie-chart}
-# Pie Chart with Percentages
-gendertable <- table(data$gender)
-lbls <- paste(names(gendertable), "\n", gendertable, sep="")
-pie(gendertable, labels = lbls,
-   main="Pie Chart of Gender Distribution of Respondents") 
-# attempt at ggplot2 way...  
-ggplot(data, aes(x = "", y = gender, fill = "gender")) +
-  coord_polar(theta = "y")
-  #geom_label_repel(nudge_y = 1, direction = "y", hjust = 1) #for if label needs adjusting?
-```
 We visualized gender identities of participants with a pie chart. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
 
 ```{r health-insurance-sexuality}
-ggplot(data, aes(x = sexuality,
-                 fill = healthInsureAcc)) +
-  geom_bar(position = "fill") +
-  labs (x = "Sexuality",
-        y = "Frequency",
-        fill = "Healthcare Insurance Access",
-        title = "Distribution of Respondant Sexuality and Healthcare Access") +
-  theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1))
 data %>% 
   filter(!is.na(healthInsureAcc), 
          !is.na(sexuality) 
@@ -229,16 +209,6 @@ In the second visualization of sexuality and access to healthcare, we visualized
 
 ```{r health-provider-sexuality}
 data %>%
-ggplot(aes(x = sexuality,
-                         fill = healthProvideAcc)) +
-  geom_bar(position = "fill") +
-  labs (x = "Sexuality",
-        y = "Frequency",
-        fill = "Healthcare Provider Access",
-        title = "Distribution of Respondant Sexuality and Healthcare Access") +
-  theme(axis.text.x = element_text(angle = 45,
-                                   hjust = 1)) 
-data %>%
   filter(is.na(healthProvideAcc) == FALSE) %>% 
 ggplot(aes(x = sexuality,
                          fill = healthProvideAcc)) +
@@ -254,7 +224,8 @@ ggplot(aes(x = sexuality,
 
 ```{r health-insurance-gender}
 data %>%
-ggplot(aes(x = gender,
+  filter(is.na(healthInsureAcc) == FALSE) %>% 
+  ggplot(aes(x = gender,
           fill = healthInsureAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Gender",
@@ -267,7 +238,9 @@ ggplot(aes(x = gender,
 
 
 ```{r health-provider-gender}
-ggplot(data, aes(x = gender,
+data %>%
+filter(is.na(healthProvideAcc) == FALSE) %>% 
+ggplot(aes(x = gender,
                          fill = healthProvideAcc)) +
   geom_bar(position = "fill") +
   labs (x = "Gender",
@@ -376,8 +349,11 @@ sigpairs <- broom::tidy(sexpair) %>%
   filter(p.value<0.05) %>%
   arrange(group1,group2)
 nrow(sigpairs)
-print(sigpairs)
+print(sigpairs
+      )
 ```
 4: 2-spirit
 5: queer
+
+Statistically, 2-spirit and queer are different from the rest 
 

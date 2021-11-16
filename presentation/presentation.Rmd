@@ -1,5 +1,5 @@
 ---
-title: "Investigating the Effect of Sex, Race, and Gender Identities on Health Outcomes"
+title: "Investigating the Effect of Sexuality, Race, and Gender Identity on Health Outcomes"
 subtitle: "Working with data from the Social Justice Sexuality Project"
 author: "Jackie Fan Club <br> Ashley Bae, Gi Chun, Jay Nolt"
 institute: "Duke University"
@@ -242,6 +242,8 @@ Data Citation: Battle, Juan, Pastrana, Antonio Jay, and Daniels, Jessie. Social 
 ## Data Wrangling
 We had data that was not in a suitable form to be visualized or analyzed. Thus, we used data wrangling to synthesize many responses into a single variable. 
 
+--
+
 - Race
   - Since respondents could pick multiple selections, we synthesized multiple selections into a single variable. If respondents selected multiple races, they would be listed as multiracial. This means that the multiracial category encompass many identities, so we must proceed with caution when analyzing its significance. 
   
@@ -307,7 +309,11 @@ We followed up by asking:
 
 - Are marginalized groups disadvantaged in their health outcomes? 
 
-- How much more significant are the disparities at intersections of more than one marginalized identity? 
+- How much more significant are the disparities at intersections of multiple marginalized identities? 
+
+--
+
+Our hypothesis is that those who exist at the intersection of marginalized minority groups in race, sexuality, or gender would have compounded impacts of inequality than if they were only representing one of the marginalized identities. For example, someone who is  black and queer would face more negative health outcomes as opposed to someone who’s either black or queer. 
 
 ---
 

@@ -177,6 +177,83 @@ mutate(race = case_when(
 ```
 
 
+```{r gender-barplot}
+ggplot(data, aes(x = gender)) +
+  geom_bar(fill = "light blue") +
+  labs (x = "Gender",
+        y = "Frequency",
+        title = "Distribution of Respondant Gender") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+We visualized gender identities of participants with a pie chart. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
+
+```{r health-insurance-sexuality}
+data %>% 
+  filter(!is.na(healthInsureAcc), 
+         !is.na(sexuality) 
+         ) %>%
+  ggplot(aes(x = sexuality,
+           fill = healthInsureAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Sexuality",
+        y = "Frequency",
+        fill = "Healthcare Insurance Access",
+        title = "Distribution of Respondant Sexuality and Healthcare Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+
+We used a segmented bar graph to visualize sexuality of respondents and their access to healthcare. The differences are not so visually distinct, especially when attempting to compare straight/heterosexual individuals to other historically and presently marginalized sexual identities. This is especially so in groups with many NA responses. In addition, the multitude of identities of sexuality which also may overlap or have culturally distinct attributes may complicate data analysis. The respondants are also prompted to choose only one identity, to the question "Which one label comes closest to how you describe your sexual identity?" 
+
+In the second visualization of sexuality and access to healthcare, we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
+
+```{r health-provider-sexuality}
+data %>%
+  filter(is.na(healthProvideAcc) == FALSE) %>% 
+ggplot(aes(x = sexuality,
+                         fill = healthProvideAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Sexuality",
+        y = "Frequency",
+        fill = "Healthcare Provider Access",
+        title = "Distribution of Respondant Sexuality and Healthcare Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+
+
+```{r health-insurance-gender}
+data %>%
+  filter(is.na(healthInsureAcc) == FALSE) %>% 
+  ggplot(aes(x = gender,
+          fill = healthInsureAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Gender",
+        y = "Frequency",
+        fill = "Healthcare Insurance Access",
+        title = "Relationship of Gender and Healthcare Insurance Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+
+
+```{r health-provider-gender}
+data %>%
+filter(is.na(healthProvideAcc) == FALSE) %>% 
+ggplot(aes(x = gender,
+                         fill = healthProvideAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Gender",
+        y = "Frequency",
+        fill = "Healthcare Provider Access",
+        title = "Relationship of Gender and Healthcare Provider Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1)) 
+```
+
+In the above segmented bar graphs, respondents respond to "Do you have health insurance?" and "Do you have a regular doctor or health care provider?", respectively. The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of F2M tansgender individuals. Also, when comparing the gender groups, note that there are more missing values for transgendered individuals than cisgendered respondents for both access to insurance and regular healthcare provider, which may provide more insight to the disparity. It appears that one's gender identity may have a relationship to access to healthcare. 
+
 # Data Analysis 
 
 To evaluate statistically significant impacts on health outcomes due to sexuality, gender, race, and intersectional identities, we ran a few statistical tests. 
@@ -236,6 +313,7 @@ We conducted another multiple regression with interaction terms, in order to eva
 ```{r overall-anova}
 summary(aov(Q18C~Q25,data=data_filtered2))
 ```
+
 ```{r stepdown-anova}
 sexpair <- pairwise.t.test(data_filtered2$Q18C,data_filtered2$Q25, p.adj = "holm")
 sigpairs <- broom::tidy(sexpair) %>%
@@ -243,7 +321,10 @@ sigpairs <- broom::tidy(sexpair) %>%
   arrange(group1,group2)
 nrow(sigpairs)
 print(sigpairs) 
+
 ```
 4: 2-spirit
 5: queer
+
+Statistically, 2-spirit and queer are different from the rest 
 

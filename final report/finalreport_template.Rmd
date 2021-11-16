@@ -277,6 +277,8 @@ ggplot(aes(x = gender,
 
 # Data Analysis 
 
+## Logistic Regression
+
 To evaluate statistically significant impacts on health outcomes due to sexuality, gender, race, and intersectional identities, we ran a few statistical tests. 
 
 ```{r preliminary-regression, include = FALSE} 
@@ -335,6 +337,8 @@ We conducted another multiple regression with interaction terms, in order to eva
 summary(aov(Q18C~Q25,data=data_filtered2))
 ```
 
+## ANOVA test, Step Down Test, and t-tests
+
 According to the overall ANOVA test conducted between sexuality and self-reported health outcomes, there are 2 groups that are shown to be statistically different than the other sexuality groups. A stepdown ANOVA was conducted to see which groups were statistically different than the rest. 
 
 ```{r stepdown-anova}
@@ -345,7 +349,8 @@ sigpairs <- broom::tidy(sexpair) %>%
 nrow(sigpairs)
 print(sigpairs) 
 ```
-According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have a statistically different self-reported health outcome score from other sexuality group. T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
+
+According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have a statistically different self-reported health outcome score from the majority sexuality group (heterosexual). T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
 
 ```{r}
 data_test <- data%>%
@@ -373,3 +378,8 @@ t.test(data_test$Queer, data_test$Straight)
 ```{r}
 t.test(data_test$TwoSpirit, data_test$Straight)
 ```
+
+# Conclusion 
+
+We sought to answer the question: How do sexuality, race, and gender affect healthcare access? Our research yields the conclusion that minority identity groups do tend to have worse health care access than the majority groups. In healthcare access, we found that the most negatively affected race group was Hispanic and the most negatively affected gender group was transgender individuals. 
+Our logistic regression model which included interaction variables did not fit the data better than our model which included single variables. As a result, our conclusions oppose our original hypothesis that those who exist at the intersection of marginalized minority groups in race, gender, and sexuality would have compounded impacts of inequality than if they were only representing one of the marginalized identities. While our results were statistically significant, we did have to make multiple simplifications in our data analysis which could have affected our models' goodness of fit.

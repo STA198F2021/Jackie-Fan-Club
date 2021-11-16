@@ -176,8 +176,8 @@ mutate(race = case_when(
 )
 ```
 
-
-```{r gender-barplot}
+# Preliminary Data Visualizations 
+```{r gender-barplot, echo = FALSE, results='hide', fig.height = 4, fig.align = "center"}
 ggplot(data, aes(x = gender)) +
   geom_bar(fill = "light blue") +
   labs (x = "Gender",
@@ -188,7 +188,7 @@ ggplot(data, aes(x = gender)) +
 ```
 We visualized gender identities of participants with a pie chart. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
 
-```{r health-insurance-sexuality}
+```{r health-insurance-sexuality, results='hide', fig.height = 4, fig.align = "center"}
 data %>% 
   filter(!is.na(healthInsureAcc), 
          !is.na(sexuality) 
@@ -208,7 +208,7 @@ We used a segmented bar graph to visualize sexuality of respondents and their ac
 
 In the second visualization of sexuality and access to healthcare, we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
 
-```{r health-provider-sexuality}
+```{r health-provider-sexuality, echo = FALSE, fig.height = 4, fig.align = "center"}
 data %>%
   filter(is.na(healthProvideAcc) == FALSE) %>% 
 ggplot(aes(x = sexuality,
@@ -223,7 +223,7 @@ ggplot(aes(x = sexuality,
 ```
 
 
-```{r health-insurance-gender}
+```{r health-insurance-gender, echo = FALSE, fig.height = 4, fig.align = "center"}
 data %>%
   filter(is.na(healthInsureAcc) == FALSE) %>% 
   ggplot(aes(x = gender,
@@ -238,7 +238,7 @@ data %>%
 ```
 
 
-```{r health-provider-gender}
+```{r health-provider-gender, echo = FALSE, fig.height = 4, fig.align = "center"}
 data %>%
 filter(is.na(healthProvideAcc) == FALSE) %>% 
 ggplot(aes(x = gender,
@@ -258,7 +258,7 @@ In the above segmented bar graphs, respondents respond to "Do you have health in
 
 To evaluate statistically significant impacts on health outcomes due to sexuality, gender, race, and intersectional identities, we ran a few statistical tests. 
 
-```{r preliminary-regression, echo = FALSE, message = FALSE, warning = FALSE} 
+```{r preliminary-regression, include = FALSE} 
 data_fit <- data %>% 
 mutate(sexuality_queer = if_else(sexuality == "(08) Straight/Heterosexual", "0", "1"),
        gender_trans = if_else((gender == "Male") | (gender == "Female"), "0", "1"), 

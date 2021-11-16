@@ -1,6 +1,6 @@
 ---
 title: "Investigating the Effect of Sex, Race, and Gender Identities on Health Outcomes"
-subtitle: "Working with data from the Social Justice Sexuality Project"
+subtitle: "Presentation subtitle (if any)"
 author: "Jackie Fan Club <br> Ashley Bae, Gi Chun, Jay Nolt"
 institute: "Duke University"
 date: "`r Sys.Date()`"
@@ -48,8 +48,7 @@ data <- da34363.0001
 
 ```{r style-slides, echo = FALSE}
 style_xaringan(
-  title_slide_background_image = "img/flag1.jpg",
-  title_slide_text_color = "black"
+  title_slide_background_image = "img/watercolour_sys02_img34_teacup-ocean.jpg"
 )
 ```
 
@@ -206,10 +205,11 @@ mutate(race = case_when(
 )
 ```
 
-# Background, Data, and Research Question
+# Using xaringan
 
 ---
 
+<<<<<<< HEAD
 ## Background
 
 We chose this topic because we want to highlight interesting trends in intersectional inequality between historically marginalized identities within race, sexuality, and gender. We are motivated to ask our question from backgrounds of interest in health, racial justice, and wanting to examine US-based data. 
@@ -305,6 +305,9 @@ We followed up by asking:
 
 
 ## The Study
+=======
+## xaringan
+>>>>>>> 73fb5ee4407795b625c339c7b0aab89544c33cd3
 
 - The presentation is created using the `xaringan` package
 

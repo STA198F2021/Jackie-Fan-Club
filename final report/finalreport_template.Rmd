@@ -329,25 +329,15 @@ print(sigpairs)
 Statistically, 2-spirit and queer are different from the rest 
 
 ```{r}
-# data_test <- data %>%
-#   filter(sexuality %in% c("(08) Straight/Heterosexual", "(04) Two Spirit", "(05) Queer")) 
-# data_test%>%
-#   mutate(
-#     Straight = case_when(
-#     sexuality == "(08) Straight/Heterosexual" ~ "TRUE",
-#     is.na(data_test$Straight) ~ "FALSE"),
-#     Queer = case_when(
-#       sexuality == "(05) Queer" ~ "TRUE",
-#       is.na(data_test$Queer) ~ "FALSE"),
-#     TwoSpirit = case_when(
-#       sexuality == "(04) Two Spirit" ~ "TRUE",
-#       is.na(data_test$TwoSpirit) ~ "FALSE"
-#     )
-#   )
-# 
-# data_test$Straight <- as.numeric(data_test$Straight)
-# data_test$Queer <- as.numeric(data_test$Queer)
-# data_test$TwoSpirit <- as.numeric(data_test$TwoSpirit)
+data_test <- data %>%
+filter(sexuality %in% c("(08) Straight/Heterosexual", "(04) Two Spirit", "(05) Queer")) %>%
+  pivot_wider(names_from = sexuality, values_from = assessHealth)
+
+```
+```{r}
+data_test <- rename(data_test,"Straight"="(08) Straight/Heterosexual")
+data_test <- rename(data_test,"Queer"="(05) Queer")
+data_test <- rename(data_test,"TwoSpirit"="(04) Two Spirit")
 ```
 
 ```{r}

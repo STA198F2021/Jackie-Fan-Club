@@ -314,6 +314,8 @@ We conducted another multiple regression with interaction terms, in order to eva
 summary(aov(Q18C~Q25,data=data_filtered2))
 ```
 
+According to the overall ANOVA test conducted between sexuality and self-reported health outcomes, there are 2 groups that are shown to be statistically different than the other sexuality groups. A stepdown ANOVA was conducted to see which groups were statistically different than the rest. 
+
 ```{r stepdown-anova}
 sexpair <- pairwise.t.test(data_filtered2$Q18C,data_filtered2$Q25, p.adj = "holm")
 sigpairs <- broom::tidy(sexpair) %>%
@@ -321,19 +323,16 @@ sigpairs <- broom::tidy(sexpair) %>%
   arrange(group1,group2)
 nrow(sigpairs)
 print(sigpairs) 
-
 ```
-4: 2-spirit
-5: queer
-
-Statistically, 2-spirit and queer are different from the rest 
+According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have a statistically different self-reported health outcome score from other sexuality group. T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
 
 ```{r}
-data_test <- data %>%
-filter(sexuality %in% c("(08) Straight/Heterosexual", "(04) Two Spirit", "(05) Queer")) %>%
+data_test <- data%>%
+  mutate(id = seq.int(nrow(data))) %>%
+  select(id, sexuality, assessHealth) %>%
   pivot_wider(names_from = sexuality, values_from = assessHealth)
-
 ```
+
 ```{r}
 data_test <- rename(data_test,"Straight"="(08) Straight/Heterosexual")
 data_test <- rename(data_test,"Queer"="(05) Queer")
@@ -341,8 +340,15 @@ data_test <- rename(data_test,"TwoSpirit"="(04) Two Spirit")
 ```
 
 ```{r}
-#t.test(data_test$Queer, data_test$Straight)
+data_test
+  data_test$Straight <- as.numeric(data_test$Straight)
+  data_test$Queer <- as.numeric(data_test$Queer)
+  data_test$TwoSpirit <- as.numeric(data_test$TwoSpirit)
+```
+
+```{r}
+t.test(data_test$Queer, data_test$Straight)
 ```
 ```{r}
-#t.test(data_test$TwoSpirit, data_test$Straight)
+t.test(data_test$TwoSpirit, data_test$Straight)
 ```

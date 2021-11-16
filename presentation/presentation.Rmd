@@ -14,7 +14,7 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 ---
-
+class: inverse, middle, center
 ```{r load-packages, include = FALSE}
 # Add any additional packages you need to this chunk
 # Remove any packages from this list that you're not using
@@ -23,6 +23,9 @@ library(tidymodels)
 library(palmerpenguins)
 library(knitr)
 library(xaringanthemer)
+library(readxl)
+library(dbplyr)
+library(ggplot2)
 ```
 
 ```{r setup, include = FALSE}
@@ -50,7 +53,158 @@ style_xaringan(
 )
 ```
 
-class: inverse, middle, center
+```{r select-data, echo = FALSE}
+data_filtered <- data %>%
+  select(Q15B,
+         Q15C,
+         Q17A,
+         Q17B,
+         Q18A1:Q18A5,
+         Q18C,
+         Q18G,
+         Q19A1:Q19A7,
+         Q22A,
+         Q22B,
+         Q25)
+# remove descriptions and other attributes
+data_filtered2 <- lapply(data, function(x) {attributes(x) <- NULL; x}) %>% 
+  as.data.frame() %>%
+  select(Q15B,
+         Q15C,
+         Q17A,
+         Q17B,
+         Q18A1:Q18A5,
+         Q18C,
+         Q18G,
+         Q19A1:Q19A7,
+         Q22A,
+         Q22B,
+         Q25)
+```
+
+```{r renameQuestions, echo = FALSE}
+data_big <- data_filtered %>%
+    select(Q17A,
+         Q17B,
+         Q18A1:Q18A5,
+         Q18C,
+         Q18G,
+         Q19A1:Q19A7,
+         Q22A,
+         Q22B,
+         Q25) %>%
+  rename(healthInsureAcc = Q17A) %>%
+  rename(healthProvideAcc = Q17B) %>%
+  rename(male = Q18A1) %>%
+  rename(female = Q18A2) %>% 
+  rename(m2f = Q18A3) %>%
+  rename(f2m = Q18A4) %>%
+  rename(genderOther = Q18A5) %>%
+  rename(sexuality = Q18C) %>%
+  mutate(age = 2021 - Q18G) %>%
+  rename(black = Q19A1) %>%
+  rename(hispanic = Q19A2) %>% 
+  rename(asian = Q19A3) %>%
+  rename(native = Q19A4) %>%
+  rename(white = Q19A5) %>%
+  rename(multi = Q19A6) %>%
+  rename(raceOther = Q19A7) %>%
+  rename(edu = Q22A) %>%
+  rename(income = Q22B) %>%
+  rename(assessHealth = Q25)
+```
+
+```{r creatingGender, echo = FALSE}
+data <- data_big %>%
+  mutate(male = case_when(
+  male == "(1) Yes" ~ "male",
+  is.na(male) ~ "",
+  TRUE ~ ""), 
+  female = case_when(
+  female == "(1) Yes" ~ "female",
+  is.na(female) ~ "",
+  TRUE ~ ""), 
+  m2f = case_when(
+  m2f == "(1) Yes" ~ "m2f",
+  is.na(m2f) ~ "",
+  TRUE ~ ""), 
+  f2m = case_when(
+  f2m == "(1) Yes" ~ "f2m",
+  is.na(f2m) ~ "",
+  TRUE ~ ""), 
+  genderOther = case_when(
+  genderOther == "(1) Yes" ~ "Other",
+  is.na(genderOther) ~ "",
+  TRUE ~ ""), 
+  gender = ""
+) 
+data$gender <- paste(data$male, data$female)
+data$gender <- paste(data$gender, data$m2f)
+data$gender <- paste(data$gender, data$f2m)
+data$gender <- paste(data$gender, data$genderOther)
+data$gender <- trimws(data$gender)
+data <- data %>%
+mutate(gender = case_when(
+  gender == "male" ~ "Male",
+  gender == "female" ~ "Female",
+  gender == "m2f" ~ "Transgender: Male to Female",
+  gender == "f2m" ~ "Transgender: Female to Male",
+  TRUE ~ "Other")
+)
+```
+
+```{r creatingRace, echo = FALSE}
+data <- data %>%
+  mutate(black = case_when(
+  black == "(1) Yes" ~ "black",
+  is.na(male) ~ "",
+  TRUE ~ ""), 
+  hispanic = case_when(
+  hispanic == "(1) Yes" ~ "hispanic",
+  is.na(hispanic) ~ "",
+  TRUE ~ ""), 
+  asian = case_when(
+  asian == "(1) Yes" ~ "asian",
+  is.na(asian) ~ "",
+  TRUE ~ ""), 
+  native = case_when(
+  native == "(1) Yes" ~ "native",
+  is.na(native) ~ "",
+  TRUE ~ ""), 
+  white = case_when(
+  white == "(1) Yes" ~ "white",
+  is.na(white) ~ "",
+  TRUE ~ ""), 
+  multi = case_when(
+  multi == "(1) Yes" ~ "multi",
+  is.na(multi) ~ "",
+  TRUE ~ ""), 
+  raceOther = case_when(
+  raceOther == "(1) Yes" ~ "Other",
+  is.na(raceOther) ~ "",
+  TRUE ~ ""), 
+  race = ""
+) 
+data$race <- paste(data$black, data$hispanic)
+data$race <- paste(data$race, data$asian)
+data$race <- paste(data$race, data$native)
+data$race <- paste(data$race, data$white)
+data$race <- paste(data$race, data$multi)
+data$race <- paste(data$race, data$raceOther)
+data$race <- trimws(data$race)
+data <- data %>%
+mutate(race = case_when(
+  race == "black" ~ "Black",
+  race == "hispanic" ~ "Hispanic",
+  race == "asian" ~ "Asian",
+  race == "native" ~ "Native",
+  race == "white" ~ "White",
+  race == "multi" ~ "Multiracial",
+  race == "other" ~ "Other",
+  race == "" ~ "Other",
+  TRUE ~ "Multiracial")
+)
+```
 
 # Background, Data, and Research Question
 
@@ -76,11 +230,53 @@ Our project uses data collected by the Social Justice Sexuality Project (SJS) th
 
 - survey given via mail questionnaire, on-site questionnaire, and web-based survey in Spanish and English depending on the respondent. 
 
+--
+
+Data Citation: Battle, Juan, Pastrana, Antonio Jay, and Daniels, Jessie. Social Justice Sexuality Project: 2010 National Survey, including Puerto Rico. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2013-08-09. https://doi.org/10.3886/ICPSR34363.v1
+
 ---
 
 ## Preliminary Data Visualizations
 
+.pull-left[
+We included some data visualizations to demonstrate the simplifications we made to efficiently test our data. This is a visualization of the distribution of gender identity responses. When we conducted significant tests on gender we sorted respondents by cisgender and transgender to identify how marginalized groups were affected in the healthcare process. 
+]
+.pull-right[
+```{r gender-barplot, warning = FALSE, out.width = "100%", echo = FALSE} 
+data %>%
+ggplot(aes(x = gender)) +
+  geom_bar(fill = "light blue") +
+  labs (x = "Gender",
+        y = "Frequency",
+        title = "Distribution of Respondant Gender") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+]
 
+---
+
+## Preliminary Data Visualizations
+
+.pull-left[
+```{r health-insurance-gender, warning = FALSE, out.width = "100%", echo = FALSE}
+data %>%
+  ggplot(aes(x = gender,
+          fill = healthInsureAcc)) +
+  geom_bar(position = "fill") +
+  labs (x = "Gender",
+        y = "Frequency",
+        fill = "Healthcare Insurance Access",
+        title = "Relationship of Gender and Healthcare Insurance Access") +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1))
+```
+]
+.pull-right[
+After we looked at the distribution of data and made decisions about which factors we wanted to study further, we then began to match up explainatory variables with response variables. In this case, we were observing how gender identity affected healthcare insurance access.
+
+The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of self-identified female to male transgender individuals. Also, when comparing the gender groups, note that there are more missing values for transgendered individuals than cisgendered respondents, which may provide more insight to the disparity. It appears tentatively that one's gender identity may have a relationship to access to healthcare. 
+]
 
 ---
 
@@ -92,6 +288,7 @@ Central research question:
 --
 
 We followed up by asking:
+
 - Are marginalized groups disadvantaged in their health outcomes? 
 
 - How much more significant are the disparities at intersections of more than one marginalized identity? 

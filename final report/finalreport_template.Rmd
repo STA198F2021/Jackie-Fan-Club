@@ -6,8 +6,7 @@ date: "November 2021"
 output: pdf_document
 ---
 
-# Load Packages
-```{r load-packages, message = FALSE, warning = FALSE}
+```{r load-packages, message = FALSE, warning = FALSE, echo = FALSE}
 library(tidyverse)
 library(tidymodels)
 library(readxl)
@@ -15,13 +14,30 @@ library(dbplyr)
 library(ggplot2)
 ``` 
 
-# Load Data 
-```{r load-data}
+```{r load-data, message = FALSE, warning = FALSE, echo = FALSE}
 load(file = "~/sta198/Jackie-Fan-Club/data/ICPSR_34363/DS0001/34363-0001-Data.rda")
 #rename file
 data <- da34363.0001
 ```
+
+# Data
+
 Data Citation: Battle, Juan, Pastrana, Antonio Jay, and Daniels, Jessie. Social Justice Sexuality Project: 2010 National Survey, including Puerto Rico. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2013-08-09. https://doi.org/10.3886/ICPSR34363.v1
+
+Our data came from the Social Justice Sexuality Project (SJS) through the University of Michigan’s Resource Center for Minority Data. From January of 2010 to December of 2010, this project conducted surveys with over 5,000 participants who were Black, Latina/o, Asian and Pacific Islander, and multiracial lesbian, gay, bisexual, and transgender (LGBT) people in 50 US states and Puerto Rico. 
+
+The survey was given via mail questionnaire, on-site questionnaire, and web-based survey in Spanish and English depending on the respondent. In the data set itself, each case is an individual respondent who filled out the survey. Each question is a variable with the value determined by an individual’s survey response. Since there were hundreds of variables, we chose to remove some columns since we were looking at a more narrow scope of variables. Although the variables touch on very broad topics, this data set particularly focuses on questions relating to LGBT communities and people of color.  
+
+Our hypothesis is that those who exist at the intersection of marginalized minority groups in race and sexuality would have compounded impacts of inequality than if they were only representing one of the marginalized identities. For example, someone who is  black and queer would face more negative health outcomes compared to someone who’s either black or queer. 
+
+# Data Wrangling
+We had data that was not in an ideal form to be visualized or analyzed. Thus, we used data wrangling to synthesize many responses into a single variable. 
+
+Since respondents could pick multiple selections for racial identity, we synthesized multiple selections into a single variable. If respondents selected multiple races, they would be listed as multiracial. In this way, we could create data visualizations showing an identifiable number of groups to identify the general distribution. However, this also means that the multiracial category encompass many identities, so we must proceed with caution when analyzing its significance. 
+  
+Since respondents could pick multiple selections for gender identity or specify other, we collapsed all the answers into a single variable. If respondents selected multiple genders or listed their own, they would be categorized as other. When conducting analyses, we differentiated between cis and transgender individuals for ease of analysis.
+
+When conducting data analyses involving sexuality, we differentiated between queer and straight individuals for ease of analysis.
 
 ```{r select-data, echo = FALSE}
 data_filtered <- data %>%
@@ -177,7 +193,10 @@ mutate(race = case_when(
 ```
 
 # Preliminary Data Visualizations 
-```{r gender-barplot, echo = FALSE, results='hide', fig.height = 4, fig.align = "center"}
+
+We visualized distribution of respondant gender identities of participants with a bar graph. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
+
+```{r gender-barplot, echo = FALSE, results='hide', fig.height = 3, fig.align = "center"}
 ggplot(data, aes(x = gender)) +
   geom_bar(fill = "light blue") +
   labs (x = "Gender",
@@ -186,9 +205,12 @@ ggplot(data, aes(x = gender)) +
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1))
 ```
-We visualized gender identities of participants with a pie chart. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
 
-```{r health-insurance-sexuality, results='hide', fig.height = 4, fig.align = "center"}
+We used a segmented bar graph to visualize sexuality of respondents and their access to healthcare. The differences are not so visually distinct, especially when attempting to compare straight/heterosexual individuals to other historically and presently marginalized sexual identities. This is especially so in groups with many NA responses. In addition, the multitude of identities of sexuality which also may overlap or have culturally distinct attributes may complicate data analysis. The respondants are also prompted to choose only one identity, to the question "Which one label comes closest to how you describe your sexual identity?" 
+
+In the second visualization of sexuality and access to healthcare (pictured below), we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
+
+```{r health-insurance-sexuality, echo = FALSE, results='hide', fig.height = 3, fig.align = "center"}
 data %>% 
   filter(!is.na(healthInsureAcc), 
          !is.na(sexuality) 
@@ -204,9 +226,11 @@ data %>%
                                    hjust = 1))
 ```
 
-We used a segmented bar graph to visualize sexuality of respondents and their access to healthcare. The differences are not so visually distinct, especially when attempting to compare straight/heterosexual individuals to other historically and presently marginalized sexual identities. This is especially so in groups with many NA responses. In addition, the multitude of identities of sexuality which also may overlap or have culturally distinct attributes may complicate data analysis. The respondants are also prompted to choose only one identity, to the question "Which one label comes closest to how you describe your sexual identity?" 
+# Further Data Visualizations
 
-In the second visualization of sexuality and access to healthcare, we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
+For the rest of our data visualizations, we filtered out NA values in order to better highlight the distribution of the information that was provided. We did this after identifying trends in NA values to ensure we weren't misrepresenting our data by removing NA values. 
+
+In the following segmented bar graphs, respondents respond to "Do you have health insurance?" and "Do you have a regular doctor or health care provider?", respectively. The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of F2M transgender individuals. Additionally, when comparing the gender groups, we noted that there are more missing values for transgendered individuals than cisgendered respondents for both access to insurance and regular healthcare provider, which may provide more insight into the apparent disparity. It appears that one's gender identity may have a relationship to access to healthcare. 
 
 ```{r health-provider-sexuality, echo = FALSE, fig.height = 4, fig.align = "center"}
 data %>%
@@ -237,7 +261,6 @@ data %>%
                                    hjust = 1))
 ```
 
-
 ```{r health-provider-gender, echo = FALSE, fig.height = 4, fig.align = "center"}
 data %>%
 filter(is.na(healthProvideAcc) == FALSE) %>% 
@@ -251,8 +274,6 @@ ggplot(aes(x = gender,
   theme(axis.text.x = element_text(angle = 45,
                                    hjust = 1)) 
 ```
-
-In the above segmented bar graphs, respondents respond to "Do you have health insurance?" and "Do you have a regular doctor or health care provider?", respectively. The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of F2M tansgender individuals. Also, when comparing the gender groups, note that there are more missing values for transgendered individuals than cisgendered respondents for both access to insurance and regular healthcare provider, which may provide more insight to the disparity. It appears that one's gender identity may have a relationship to access to healthcare. 
 
 # Data Analysis 
 

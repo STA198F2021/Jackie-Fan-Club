@@ -308,6 +308,29 @@ We followed up by asking:
 
 # Data Analysis
 
+---
+
+## Single-Variable Logistic Regression
+
+We ran a multiple logistic regression for health insurance access and health provider access conditional on gender, race, and sexuality. 
+.footnote[
+[*] We just distinguished between heterosexual and all other sexuality answers in our models. 
+] 
+
+- our referent group of white, cis, heterosexual individuals are 1.46 times more likely to have health insurance than non-white, trans, non-heterosexual counterparts.
+
+- They are also 1.32 times more likely to have access to a regular healthcare provider than marginalized identities. 
+
+
+
+---
+
+## Logistic Regression with Interaction Variables
+
+---
+
+## ANOVA, Step Down Test, and t-test
+
 
 
 ---

@@ -253,7 +253,7 @@ We had data that was not in a suitable form to be visualized or analyzed. Thus, 
   - Since respondents could pick multiple selections or specify other, we collapsed all the answers into a single variable. If respondents selected multiple genders or listed their own, they would be categorized as other. When conducting analyses, we differentiated between cis and transgender individuals for ease of analysis.
 
 - Sexuality
-  - When conducting data analyses, we differentiated between queer and straight individuals for ease of analysis.
+  - When conducting data analyses, we simplified the number of sexuality options and just differentiated between heterosexual and non-heterosexual individuals.
 ---
 
 ## Preliminary Data Visualizations

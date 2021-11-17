@@ -321,7 +321,7 @@ exp(providerfit$coefficients)
 ```
 
 
-```{r interaction-fit-show, results='hide'}
+```{r interaction-fit-show, echo = FALSE, results='hide'}
 # insurance fit all interactions  -----------------------------------------------------
 insurancefit_interact <- glm(healthInsureAcc ~ race*gender_trans + gender_trans*sexuality_queer + race*sexuality_queer,
            data = data_relevel, family = "binomial") 

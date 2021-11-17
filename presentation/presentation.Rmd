@@ -328,7 +328,7 @@ class: inverse, middle, center
 
 ---
 
-## Single-Variable Logistic Regression
+## Single-Variable Logistic Regression to Investigate Access
 
 We ran logistic regression for insurance and health provider access conditional on gender, race, and sexuality. 
 .footnote[
@@ -351,7 +351,7 @@ Access to a Healthcare Provider
 
 ---
 
-## Logistic Regression with Interaction Variables
+## Logistic Regression with Interaction Variables 
 
 - We then considered the intersection between various minority identities (such as race and gender) by creating a logistic regression with interaction variables. 
 
@@ -360,7 +360,7 @@ Access to a Healthcare Provider
 - Thus, we proceeded with multiple regressions without interaction terms but variable on race, gender, and sexuality to predict each insurance and healthcare provider access. 
 ---
 
-## ANOVA, Step Down Test, and t-test
+## ANOVA, Step Down Test, and t-test to Analyze Health Outcomes
 
 - According to the overall ANOVA test conducted between sexuality and self-reported health assessment score, there are 2 groups that are shown to be statistically different than the other sexuality groups in their self-reported health assessment score. 
 
@@ -374,7 +374,7 @@ Access to a Healthcare Provider
 Definition: “Two-spirit” refers to a person who identifies as having both a masculine and a feminine spirit, and is used by some Indigenous people to describe their sexual, gender and/or spiritual identity. As an umbrella term it may encompass same-sex attraction and a wide variety of gender variance, including people who might be described in Western culture as gay, lesbian, bisexual, transsexual, transgender, gender queer, cross-dressers or who have multiple gender identities.
 
 ---
-## t-test results
+## t-test Results
 Queer vs. Straight t-test
 - p-value = 0.01332
 - The confidence interval indicates that we are 95% confident that individuals that identity as queer self-report lower health assessment scores by a difference ranging from -0.316 to -0.037 in comparison to straight individuals. 

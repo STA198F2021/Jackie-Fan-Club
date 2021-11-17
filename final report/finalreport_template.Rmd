@@ -366,7 +366,7 @@ nrow(sigpairs)
 print(sigpairs) 
 ```
 
-According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have statistically significant different self-reported health outcome score from the rest of the sexuality groups. T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
+According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have statistically significant different self-reported health assessment score from the rest of the sexuality groups. T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare assessment. 
 
 ```{r create-datatest}
 data_test <- data%>%
@@ -399,7 +399,7 @@ The confidence interval indicates that we are 95% confident that individuals tha
 t.test(data_test$TwoSpirit, data_test$Straight)
 ```
 
-This t-test calculated an insignificant p-value. Based on the ANOVA and Step Down test, Two Spirit groups may be statistically different from other sexuality groups, but not necessarily different with Straight groups. Therefore, this difference is not necessarily relevant to our research question, although this test was valuable in its clarification.
+This t-test calculated an insignificant p-value, indicating that we fail to reject the null hypothesis stating that there is no statistically significant difference between two spirit and straight groups in their self-reported healthcare assessment. Based on the ANOVA and Step Down test, two spirit groups may be statistically different from other sexuality groups, but not necessarily different with straight groups. Therefore, this difference is not necessarily relevant to our research question, although this test was valuable in its clarification.
 
 # Conclusion 
 

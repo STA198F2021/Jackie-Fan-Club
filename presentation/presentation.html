@@ -21,6 +21,207 @@ class: center, middle, inverse, title-slide
 ---
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class: inverse, middle, center
+
+# Background, Data, and Research Question
+
+---
+
+## Background
+
+We chose this topic because we want to highlight interesting trends in inequality across historically marginalized identities within race, sexuality, and gender. We also wanted to investigate how significant intersectional identities are to health outcomes. We are motivated to ask our question from backgrounds of interest in health, racial justice, and wanting to examine US-based data. 
+
+We picked a data set which could be statistically analyzed to yield meaningful conclusions about the impact of identity on health care. 
+
+---
+
+
+## Data
+
+Our project uses data collected by the Social Justice Sexuality Project (SJS) through the University of Michigan’s Resource Center for Minority Data
+
+--
+
+- surveyed over 5,000 participants
+
+- from January of 2010 to December of 2010
+
+- respondents were Black, Latina/o, Asian and Pacific Islander, and multiracial lesbian, gay, bisexual, and transgender (LGBT) people in 50 US states and Puerto Rico
+
+- survey given via mail questionnaire, on-site questionnaire, and web-based survey in Spanish and English depending on the respondent. 
+
+--
+
+Data Citation: Battle, Juan, Pastrana, Antonio Jay, and Daniels, Jessie. Social Justice Sexuality Project: 2010 National Survey, including Puerto Rico. Ann Arbor, MI: Inter-university Consortium for Political and Social Research [distributor], 2013-08-09. https://doi.org/10.3886/ICPSR34363.v1
+
+---
+
+## Data Wrangling
+We had data that was not in a suitable form to be visualized or analyzed. Thus, we used data wrangling to synthesize many responses into a single variable. 
+
+--
+
+- Race
+  - Since respondents could pick multiple selections, we synthesized multiple selections into a single variable. If respondents selected multiple races, they would be listed as multiracial. This means that the multiracial category encompass many identities, so we must proceed with caution when analyzing its significance. 
+  
+- Gender
+  - Since respondents could pick multiple selections or specify other, we collapsed all the answers into a single variable. If respondents selected multiple genders or listed their own, they would be categorized as other. When conducting analyses, we differentiated between cis and transgender individuals for ease of analysis.
+
+- Sexuality
+  - When conducting data analyses, we simplified the number of sexuality options and just differentiated between heterosexual and non-heterosexual individuals.
+---
+
+## Preliminary Data Visualizations
+
+.pull-left[
+We included some data visualizations to demonstrate the simplifications we made to efficiently test our data. This is a visualization of the distribution of gender identity responses. When we conducted significant tests on gender we sorted respondents by cisgender and transgender to identify how marginalized groups were affected in the healthcare process. 
+]
+.pull-right[
+&lt;img src="presentation_files/figure-html/gender-barplot-1.png" width="100%" /&gt;
+]
+
+---
+
+## Preliminary Data Visualizations
+
+.pull-left[
+&lt;img src="presentation_files/figure-html/health-insurance-gender-1.png" width="100%" /&gt;
+]
+.pull-right[
+After we looked at the distribution of data and made decisions about which factors we wanted to study further, we then began to match up explainatory variables with response variables. In this case, we were observing how gender identity affected healthcare insurance access.
+
+The visualizations show that a greater percentage of transgender individuals answered "no" than cisgender individuals. The greatest percentage of "no" responses came from the group of self-identified female to male transgender individuals. Also, when comparing the gender groups, note that there are more missing values for transgendered individuals than cisgendered respondents, which may provide more insight to the disparity. It appears tentatively that one's gender identity may have a relationship to access to healthcare. 
+]
+
+---
+
+## Research Question
+
+Central research question:
+- How do sexuality, race, and gender affect healthcare access?
+
+--
+
+We followed up by asking:
+
+- Are marginalized groups disadvantaged in their health outcomes? 
+
+- How much more significant are the disparities at intersections of multiple marginalized identities? 
+
+--
+
+Limitations! Some variables are not necessarily independent. For example, if someone were to say they were lesbian, it’s most likely that they’re female or M2F transgender.
+
+--
+
+Our hypothesis is that those who exist at the intersection of marginalized minority groups in race, sexuality, or gender would have compounded impacts of inequality than if they were only representing one of the marginalized identities. For example, someone who is  black and queer would face more negative health outcomes as opposed to someone who’s either black or queer. 
+
+---
+
+class: inverse, middle, center
+# Data Analysis
+
+---
+
+## Multiple Logistic Regressions to Investigate Healthcare Access
+
+We used multiple logistic regressions to predict insurance and regular healthcare provider access, conditional on gender, race, and sexuality. Our referent group was straight, white, cisgender individuals to compare to other marginalized identities of queer, non-white, and transgender. 
+
+Health Insurance 
+
+- The group with least access to health insurance was Hispanic individuals, followed by transgender individuals, followed by multiracial individuals, followed by native individuals. 
+
+- White, cis, heterosexual individuals are 4.29 times more likely to have health insurance than non-white, trans, queer counterparts with a highly significant p value of less than 2e-16. 
+
+--
+
+Access to a Healthcare Provider
+
+- The most negatively affected identity group was transgender, followed by Hispanic, and followed by black individuals. 
+
+- White, cis, heterosexuals are also predicted to be 3.58 times more likely to have access to a regular healthcare provider than marginalized identities, with a significant p value of less than 2e-16. 
+
+---
+
+## Logistic Regression with Interaction Variables 
+
+- We also evaluated the intersections between various minority identities by creating logistic regressions with interaction variables across race, gender, and sexuality. 
+
+- We found using AIC that the models themselves fitted with interaction terms fared worse than without interaction, even though there were some significant differences due to intersections. 
+
+- Thus, we proceeded with the multiple regressions without interaction terms. 
+---
+
+## ANOVA, Step Down Test, and t-test to Analyze Health Outcomes
+
+- According to the overall ANOVA test conducted between sexuality and self-reported health assessment score, there are 2 groups that are shown to be statistically different than the other sexuality groups in their self-reported health assessment score. 
+
+- According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have statistically significant different self-reported health outcome score from the rest of the sexuality groups.
+
+- T-tests were then conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
+
+---
+## Two-Spirit
+
+Definition: “Two-spirit” refers to a person who identifies as having both a masculine and a feminine spirit, and is used by some Indigenous people to describe their sexual, gender and/or spiritual identity. As an umbrella term it may encompass same-sex attraction and a wide variety of gender variance, including people who might be described in Western culture as gay, lesbian, bisexual, transsexual, transgender, gender queer, cross-dressers or who have multiple gender identities.
+
+---
+## t-test Results
+Queer vs. Straight t-test
+- p-value = 0.01332
+- The confidence interval indicates that we are 95% confident that individuals that identity as queer self-report lower health assessment scores by a difference ranging from -0.316 to -0.037 in comparison to straight individuals. 
+
+Two-Spirit vs. Straight t-test
+- An insignificant p-value
+- Two Spirit groups may be statistically different from other sexuality groups, but not necessarily different with Straight groups. 
+- Therefore, this difference is not necessarily relevant to our research question, although this test was valuable in its clarification.
+
+---
+class: inverse, middle, center
+# Findings
+
+---
+
+## Conclusions 
+- Queer individuals tended to have lower self-assessed health scores, which indicates worsened predicted health outcomes for marginalized sexualities. 
+
+- Both Hispanic and transgender groups are significantly disadvantaged to access to both health care and a healthcare provider. 
+
+- For the Hispanic race category, it may be explained that they are often disadvantaged in legal status and therefore legal protection, income, and health access in this case. Out of 188 non-citizens in this study, Hispanics number 57, the biggest race group of non-citizens. 
+
+- There are also many studies conducted about transgenders’ access to healthcare providers as determined by less knowledge of the provider on trans issues. To quote a study by Safer et al. called “Barriers to Health Care for Transgender Individuals,” “transgender patients report that lack of providers with expertise in transgender medicine represents the single largest component inhibiting access.” 
+
+.footnote[
+[*] Citation: Safer et al. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4802845/#R14 
+] 
+
+---
+
+##Additional Limitations...
+
+We would also like to state that although our analyses may have shown that statistically these identities do not impact healthcare outcomes or experiences, it is essential to note that these statistics do not mean that discrimination on any of these identities in healthcare does not exist. Our project was not designed to discount individual experiences based on our findings, and more sophisticated statistical analyses may be a better representation of our data in how this problem exists in the real world. 
+
+---
+
+class: inverse, middle, center
+
+# Thank You!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

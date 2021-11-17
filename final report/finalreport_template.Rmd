@@ -146,31 +146,28 @@ mutate(gender = case_when(
 data <- data %>%
   mutate(black = case_when(
   black == "(1) Yes" ~ "black",
-  is.na(male) ~ "",
+  is.na(male) ~ "", 
   TRUE ~ ""), 
   hispanic = case_when(
   hispanic == "(1) Yes" ~ "hispanic",
-  is.na(hispanic) ~ "",
-  TRUE ~ ""), 
+  is.na(hispanic) ~ "",  TRUE ~ ""), 
   asian = case_when(
   asian == "(1) Yes" ~ "asian",
-  is.na(asian) ~ "",
+  is.na(asian) ~ "", 
   TRUE ~ ""), 
   native = case_when(
   native == "(1) Yes" ~ "native",
-  is.na(native) ~ "",
-  TRUE ~ ""), 
+  is.na(native) ~ "", TRUE ~ ""), 
   white = case_when(
   white == "(1) Yes" ~ "white",
-  is.na(white) ~ "",
+  is.na(white) ~ "", 
   TRUE ~ ""), 
   multi = case_when(
   multi == "(1) Yes" ~ "multi",
-  is.na(multi) ~ "",
-  TRUE ~ ""), 
+  is.na(multi) ~ "", TRUE ~ ""), 
   raceOther = case_when(
   raceOther == "(1) Yes" ~ "Other",
-  is.na(raceOther) ~ "",
+  is.na(raceOther) ~ "", 
   TRUE ~ ""), 
   race = ""
 ) 
@@ -191,8 +188,7 @@ mutate(race = case_when(
   race == "multi" ~ "Multiracial",
   race == "other" ~ "Other",
   race == "" ~ "Other",
-  TRUE ~ "Multiracial")
-)
+  TRUE ~ "Multiracial"))
 ```
 
 # Preliminary Data Visualizations 

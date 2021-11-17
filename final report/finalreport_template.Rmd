@@ -29,6 +29,8 @@ Our data came from the Social Justice Sexuality Project (SJS) through the Univer
 
 The survey was given via mail questionnaire, on-site questionnaire, and web-based survey in Spanish and English depending on the respondent. In the data set itself, each case is an individual respondent who filled out the survey. Each question is a variable with the value determined by an individual’s survey response. Since there were hundreds of variables, we chose to remove some columns since we were looking at a more narrow scope of variables. Although the variables touch on very broad topics, this data set particularly focuses on questions relating to LGBT communities and people of color.  
 
+We recognize the limitations of not only the collection method, e.g. allowing for only one answer of sexuality to a question with many options that are not necessarily mutually exclusive, convenience sampling, but also fitting identity, neither quantifiable nor simple, for the sake of data analysis. Additionally, some variables are not necessarily independent. For example, if someone were to say they were lesbian, it’s most likely that they’re female or M2F transgender. 
+
 Our hypothesis is that those who exist at the intersection of marginalized minority groups in race and sexuality would have compounded impacts of inequality than if they were only representing one of the marginalized identities. For example, someone who is  black and queer would face more negative health outcomes compared to someone who’s either black or queer. 
 
 # Data Wrangling
@@ -144,31 +146,28 @@ mutate(gender = case_when(
 data <- data %>%
   mutate(black = case_when(
   black == "(1) Yes" ~ "black",
-  is.na(male) ~ "",
+  is.na(male) ~ "", 
   TRUE ~ ""), 
   hispanic = case_when(
   hispanic == "(1) Yes" ~ "hispanic",
-  is.na(hispanic) ~ "",
-  TRUE ~ ""), 
+  is.na(hispanic) ~ "",  TRUE ~ ""), 
   asian = case_when(
   asian == "(1) Yes" ~ "asian",
-  is.na(asian) ~ "",
+  is.na(asian) ~ "", 
   TRUE ~ ""), 
   native = case_when(
   native == "(1) Yes" ~ "native",
-  is.na(native) ~ "",
-  TRUE ~ ""), 
+  is.na(native) ~ "", TRUE ~ ""), 
   white = case_when(
   white == "(1) Yes" ~ "white",
-  is.na(white) ~ "",
+  is.na(white) ~ "", 
   TRUE ~ ""), 
   multi = case_when(
   multi == "(1) Yes" ~ "multi",
-  is.na(multi) ~ "",
-  TRUE ~ ""), 
+  is.na(multi) ~ "", TRUE ~ ""), 
   raceOther = case_when(
   raceOther == "(1) Yes" ~ "Other",
-  is.na(raceOther) ~ "",
+  is.na(raceOther) ~ "", 
   TRUE ~ ""), 
   race = ""
 ) 
@@ -189,8 +188,7 @@ mutate(race = case_when(
   race == "multi" ~ "Multiracial",
   race == "other" ~ "Other",
   race == "" ~ "Other",
-  TRUE ~ "Multiracial")
-)
+  TRUE ~ "Multiracial"))
 ```
 
 # Preliminary Data Visualizations 
@@ -364,7 +362,7 @@ nrow(sigpairs)
 print(sigpairs) 
 ```
 
-According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have statistically significant different self-reported health outcome score from the rest of the sexuality groups. T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
+According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have statistically significant different self-reported health assessment score from the rest of the sexuality groups. T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare assessment. 
 
 ```{r create-datatest}
 data_test <- data%>%
@@ -397,7 +395,7 @@ The confidence interval indicates that we are 95% confident that individuals tha
 t.test(data_test$TwoSpirit, data_test$Straight)
 ```
 
-This t-test calculated an insignificant p-value. Based on the ANOVA and Step Down test, Two Spirit groups may be statistically different from other sexuality groups, but not necessarily different with Straight groups. Therefore, this difference is not necessarily relevant to our research question, although this test was valuable in its clarification.
+This t-test calculated an insignificant p-value, indicating that we fail to reject the null hypothesis stating that there is no statistically significant difference between two spirit and straight groups in their self-reported healthcare assessment. Based on the ANOVA and Step Down test, two spirit groups may be statistically different from other sexuality groups, but not necessarily different with straight groups. Therefore, this difference is not necessarily relevant to our research question, although this test was valuable in its clarification.
 
 # Conclusion 
 
@@ -405,6 +403,8 @@ We sought to answer the question: How do sexuality, race, and gender affect heal
 
 Our logistic regression models which included interaction variables did not fit the data better than our model which included single variables. As a result, our conclusions oppose our original hypothesis that those who exist at the intersection of marginalized minority groups in race, gender, and sexuality would have statistically significant compounded impacts of inequality than if they were only representing one of the marginalized identities. While our results were statistically significant, we did have to make multiple simplifications in our data analysis which could have affected our models' goodness of fit, due to limitations earlier explained. 
 
-From ourlogistic regression models, both Hispanic and transgender groups are significantly disadvantaged to access to both health care and a healthcare provider. For the Hispanic race category, it may be explained that they are often disadvantaged in legal status and therefore legal protection, income, and health access in this case. Out of 188 non-citizens in this study, Hispanics number 57, the biggest race group of non-citizens. There are also many studies conducted about transgenders’ access to healthcare providers as determined by less knowledge of the provider on trans issues. To quote a study by Safer et al. called “Barriers to Health Care for Transgender Individuals,” “transgender patients report that lack of providers with expertise in transgender medicine represents the single largest component inhibiting access.” 
+From our logistic regression models, both Hispanic and transgender groups are significantly disadvantaged to access to both health care and a healthcare provider. For the Hispanic race category, it may be explained that they are often disadvantaged in legal status and therefore legal protection, income, and health access in this case. Out of 188 non-citizens in this study, Hispanics number 57, the biggest race group of non-citizens. There are also many studies conducted about transgenders’ access to healthcare providers as determined by less knowledge of the provider on trans issues. To quote a study by Safer et al. called “Barriers to Health Care for Transgender Individuals,” “transgender patients report that lack of providers with expertise in transgender medicine represents the single largest component inhibiting access.” 
+
+We would also like to state that although our analyses may have shown that statistically these identities do not impact healthcare outcomes or experiences, it is essential to note that these statistics do not mean that discrimination on any of these identities in healthcare does not exist. Our project was not designed to discount individual experiences based on our findings, and more sophisticated statistical analyses may be a better representation of our data in how this problem exists in the real world. 
 
 (citation: Safer et al. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4802845/#R14)

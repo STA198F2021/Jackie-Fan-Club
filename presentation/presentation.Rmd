@@ -326,25 +326,34 @@ class: inverse, middle, center
 
 ## Single-Variable Logistic Regression
 
-We ran a multiple logistic regression for health insurance access and health provider access conditional on gender, race, and sexuality. 
+We ran logistic regression for insurance and health provider access conditional on gender, race, and sexuality. 
 .footnote[
 [*] We just distinguished between heterosexual and all other sexuality answers in our models. 
 ] 
 
+Health Insurance 
+
 - The most negatively affected identity group in regards to health insurance access was Hispanic individuals, followed by transgender individuals, followed by multiracial individuals, followed by native individuals. 
 
-- The most negatively affected identity group in regards to whether or not someone has access to a regular healthcare provider or not, we found that the most negatively affected identity group was transgender, followed by Hispanic, and followed by black individuals. 
+- Our referent group of white, cis, heterosexual individuals are 4.29 times more likely to have health insurance than non-white, trans, non-heterosexual counterparts with a highly significant p value of less than 2e-16. 
 
-- For example, our referent group of white, cis, heterosexual individuals are 1.46 times more likely to have health insurance than non-white, trans, non-heterosexual counterparts.
+--
 
-- They are also 1.32 times more likely to have access to a regular healthcare provider than marginalized identities. 
+Access to a Healthcare Provider
 
+- The most negatively affected identity group was transgender, followed by Hispanic, and followed by black individuals. 
 
+- White, cis, heterosexuals are also predicted to be 3.58 times more likely to have access to a regular healthcare provider than marginalized identities, with a significant p value of less than 2e-16. 
 
 ---
 
 ## Logistic Regression with Interaction Variables
 
+- We then considered the intersection between various minority identities (such as race and gender) by creating a logistic regression with interaction variables. 
+
+- Although found significant differences due to intersections of race and gender, we found using AIC that the models themselves fitted with interaction terms were not significantly better and fared worse than without interaction.
+
+- Thus, we proceeded with multiple regressions without interaction terms but variable on race, gender, and sexuality to predict each insurance and healthcare provider access. 
 ---
 
 ## ANOVA, Step Down Test, and t-test
@@ -356,6 +365,15 @@ class: inverse, middle, center
 # Findings
 
 ---
+
+## Data Analysis Findings
+Both Hispanic and transgender groups are significantly disadvantaged to access to both health care and a healthcare provider. 
+
+- For the Hispanic race category, it may be explained that they are often disadvantaged in legal status and therefore legal protection, income, and health access in this case. Out of 188 non-citizens in this study, Hispanics number 57, the biggest race group of non-citizens. 
+
+- There are also many studies conducted about transgenders’ access to healthcare providers as determined by less knowledge of the provider on trans issues. To quote a study by Safer et al. called “Barriers to Health Care for Transgender Individuals,” “transgender patients report that lack of providers with expertise in transgender medicine represents the single largest component inhibiting access.” 
+
+- Queer individuals tended to have lower self-accessed health scores which implies a worsened health outcomes for marginalized communities.
 
 ## The Study
 =======

@@ -353,7 +353,7 @@ Both Hispanic and transgender groups are significantly disadvantaged to access t
 summary(aov(Q18C~Q25,data=data_filtered2))
 ```
 
-According to the overall ANOVA test conducted between sexuality and self-reported health outcomes, there are 2 groups that are shown to be statistically different than the other sexuality groups. A stepdown ANOVA was conducted to see which groups were statistically different than the rest. 
+The overall ANOVA test resulted in a significant p-value. According to the overall ANOVA test conducted between sexuality and self-reported health assessment score, there are 2 groups that are shown to be statistically different than the other sexuality groups in their self-reported health assessment score. A step down test was conducted to see which sexuality groups were statistically different their self-reported health assessment score than the rest. 
 
 ```{r stepdown-anova}
 sexpair <- pairwise.t.test(data_filtered2$Q18C,data_filtered2$Q25, p.adj = "holm")
@@ -364,35 +364,40 @@ nrow(sigpairs)
 print(sigpairs) 
 ```
 
-According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have a statistically different self-reported health outcome score from the majority sexuality group (heterosexual). T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
+According to the step-down ANOVA, Two-Spirit and Queer sexuality groups have statistically significant different self-reported health outcome score from the rest of the sexuality groups. T-tests were conducted in order to determine how Two-Spirit and Queer groups differ in comparison to Straight groups in self-reported healthcare outcomes. 
 
-```{r}
+```{r create-datatest}
 data_test <- data%>%
   mutate(id = seq.int(nrow(data))) %>%
   select(id, sexuality, assessHealth) %>%
   pivot_wider(names_from = sexuality, values_from = assessHealth)
 ```
 
-```{r}
+```{r rename-datatest-variables}
 data_test <- rename(data_test,"Straight"="(08) Straight/Heterosexual")
 data_test <- rename(data_test,"Queer"="(05) Queer")
 data_test <- rename(data_test,"TwoSpirit"="(04) Two Spirit")
 ```
 
-```{r}
+```{r make-datatest-numeric}
 data_test
   data_test$Straight <- as.numeric(data_test$Straight)
   data_test$Queer <- as.numeric(data_test$Queer)
   data_test$TwoSpirit <- as.numeric(data_test$TwoSpirit)
 ```
 
-```{r}
+```{r t-test-qs}
 t.test(data_test$Queer, data_test$Straight)
 ```
 
-```{r}
+The calculated p-value is 0.01332, indicating that the null hypothesis stating that there is no statistical difference between queer and straight groups in their self-reported health assessment score should be rejected. 
+The confidence interval indicates that we are 95% confident that individuals that identity as queer self-report lower health assessment scores by a difference ranging from -0.316 to -0.037 in comparison to straight individuals. 
+
+```{r t-test-ts}
 t.test(data_test$TwoSpirit, data_test$Straight)
 ```
+
+This t-test calculated an insignificant p-value. Based on the ANOVA and Step Down test, Two Spirit groups may be statistically different from other sexuality groups, but not necessarily different with Straight groups. Therefore, this difference is not necessarily relevant to our research question, although this test was valuable in its clarification.
 
 # Conclusion 
 
@@ -402,4 +407,4 @@ Our logistic regression models which included interaction variables did not fit 
 
 From ourlogistic regression models, both Hispanic and transgender groups are significantly disadvantaged to access to both health care and a healthcare provider. For the Hispanic race category, it may be explained that they are often disadvantaged in legal status and therefore legal protection, income, and health access in this case. Out of 188 non-citizens in this study, Hispanics number 57, the biggest race group of non-citizens. There are also many studies conducted about transgenders’ access to healthcare providers as determined by less knowledge of the provider on trans issues. To quote a study by Safer et al. called “Barriers to Health Care for Transgender Individuals,” “transgender patients report that lack of providers with expertise in transgender medicine represents the single largest component inhibiting access.” 
 
-(citation: safer et al. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4802845/#R14)
+(citation: Safer et al. https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4802845/#R14)

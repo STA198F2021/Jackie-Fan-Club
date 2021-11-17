@@ -306,6 +306,21 @@ data_relevel$sexuality_queer = relevel(as.factor(data_relevel$sexuality_queer), 
 
 We conducted another set of multiple regression with interaction terms and attempted to better fit with specific interactions, in order to evaluate intersection of gender and race groups. Although found significant differences due to intersections of race and gender, we found that the models themselves fitted with interaction terms were not significantly better and fared worse than without interaction. To determine this, we used Akaike information criterion (AIC), which is a tool for comparing different models and a smaller number indicates a better fit, to conclude that it prefers the models without interactions. Thus, we proceeded with multiple regressions without interaction terms but variable on race, gender, and sexuality to predict each insurance and healthcare provider access. 
 
+```{r fit}
+# insurance fit ---------------------------------------------------------------------
+insurancefit <- glm(healthInsureAcc ~ race + gender_trans + sexuality_queer,
+           data = data_relevel, family = "binomial")
+summary(insurancefit, conf.int = TRUE, exponentiate = TRUE)
+# access fit ---------------------------------------------------------------------
+providerfit <- glm(healthProvideAcc ~ race + gender_trans + sexuality_queer,
+           data = data_relevel, family = "binomial")
+summary(providerfit, conf.int = TRUE, exponentiate = TRUE)
+
+exp(insurancefit$coefficients)
+exp(providerfit$coefficients)
+```
+
+
 ```{r interaction-fit-show, results='hide'}
 # insurance fit all interactions  -----------------------------------------------------
 insurancefit_interact <- glm(healthInsureAcc ~ race*gender_trans + gender_trans*sexuality_queer + race*sexuality_queer,

@@ -33,11 +33,11 @@ Our hypothesis is that those who exist at the intersection of marginalized minor
 # Data Wrangling
 We had data that was not in an ideal form to be visualized or analyzed. Thus, we used data wrangling to synthesize many responses into a single variable. 
 
-Since respondents could pick multiple selections for racial identity, we synthesized multiple selections into a single variable. If respondents selected multiple races, they would be listed as multiracial. In this way, we could create data visualizations showing an identifiable number of groups to identify the general distribution. However, this also means that the multiracial category encompass many identities, so we must proceed with caution when analyzing its significance. 
-  
 Since respondents could pick multiple selections for gender identity or specify other, we collapsed all the answers into a single variable. If respondents selected multiple genders or listed their own, they would be categorized as other. When conducting analyses, we differentiated between cis and transgender individuals for ease of analysis.
 
 When conducting data analyses involving sexuality, we differentiated between queer and straight individuals for ease of analysis.
+
+Since respondents could pick multiple selections for racial identity, we synthesized multiple selections into a single variable. If respondents selected multiple races, they would be listed as multiracial. In this way, we could create data visualizations showing an identifiable number of groups to identify the general distribution. However, this also means that the multiracial category encompass many identities, so we must proceed with caution when analyzing its significance. The following is an example of how we synthesized our race variable based on many individual questions.
 
 ```{r select-data, echo = FALSE}
 data_filtered <- data %>%
@@ -139,7 +139,7 @@ mutate(gender = case_when(
 )
 ```
 
-```{r creatingRace, echo = FALSE}
+```{r creatingRace}
 data <- data %>%
   mutate(black = case_when(
   black == "(1) Yes" ~ "black",
@@ -194,7 +194,7 @@ mutate(race = case_when(
 
 # Preliminary Data Visualizations 
 
-We visualized distribution of respondant gender identities of participants with a bar graph. The biggest group of respondents are male, followed by female, followed by "other." There are more M2F transgender individuals than F2M transgender individuals captured in this study. 
+We visualized the distribution of respondent gender identities of participants with a bar graph. The biggest group of respondents are male, followed by female, followed by "other." There are more female transgender individuals than male transgender individuals captured in this study. 
 
 ```{r gender-barplot, echo = FALSE, results='hide', fig.height = 3, fig.align = "center"}
 ggplot(data, aes(x = gender)) +
@@ -206,7 +206,7 @@ ggplot(data, aes(x = gender)) +
                                    hjust = 1))
 ```
 
-We used a segmented bar graph to visualize sexuality of respondents and their access to healthcare. The differences are not so visually distinct, especially when attempting to compare straight/heterosexual individuals to other historically and presently marginalized sexual identities. This is especially so in groups with many NA responses. In addition, the multitude of identities of sexuality which also may overlap or have culturally distinct attributes may complicate data analysis. The respondants are also prompted to choose only one identity, to the question "Which one label comes closest to how you describe your sexual identity?" 
+We used a segmented bar graph to visualize sexuality of respondents and their access to healthcare. The differences are not so visually distinct, especially when attempting to compare straight/heterosexual individuals to other historically and presently marginalized sexual identities. This is especially so in groups with many NA responses. In addition, the multitude of identities of sexuality which also may overlap or have culturally distinct attributes may complicate data analysis. The respondents are also prompted to choose only one identity, to the question "Which one label comes closest to how you describe your sexual identity?" 
 
 In the second visualization of sexuality and access to healthcare (pictured below), we visualized the with NA values removed. This helps us more clearly visualize the data. We can see more clearly that the group with least health insurance access is those identifying as macha/o. 
 
@@ -281,7 +281,9 @@ ggplot(aes(x = gender,
 
 To evaluate statistically significant impacts on health outcomes due to sexuality, gender, race, and intersectional identities, we ran a few statistical tests. 
 
-```{r preliminary-regression, include = FALSE} 
+We ran a multiple regression for each health insurance access and health provider access conditional on gender, race, and sexuality. Sexuality is a complicated variable to work with, given that the question posed in the survey offers 12 options that are not all mutually exclusive, yet the answer given must be only one of the above. Also, to retain all options given would overcomplicate and weaken the model. Therefore, we decided to distinguish between heterosexual and all other sexuality answers in our models. 
+
+```{r preliminary-regression, results='hide'} 
 data_fit <- data %>% 
 mutate(sexuality_queer = if_else(sexuality == "(08) Straight/Heterosexual", "0", "1"),
        gender_trans = if_else((gender == "Male") | (gender == "Female"), "0", "1"), 
@@ -306,8 +308,11 @@ summary(insurancefit, conf.int = TRUE, exponentiate = TRUE)
 providerfit <- glm(healthProvideAcc ~ race + gender_trans + sexuality_queer,
            data = data_relevel, family = "binomial")
 summary(providerfit, conf.int = TRUE, exponentiate = TRUE)
+```
 
+We conducted another set of multiple regression with interaction terms and attempted to better fit with specific interactions, in order to evaluate intersection of gender and race groups. Although found significant differences due to intersections of race and gender, we found that the models themselves fitted with interaction terms were not significantly better and fared worse than without interaction. To determine this, we used Akaike information criterion (AIC), which is a tool for comparing different models and a smaller number indicates a better fit, to conclude that it prefers the models without interactions. Thus, we proceeded with multiple regressions without interaction terms but variable on race, gender, and sexuality to predict each insurance and healthcare provider access. 
 
+```{r interactions-regression, results='hide'} 
 # insurance fit interactions  ---------------------------------------------------------------------
 insurancefit_interact <- glm(healthInsureAcc ~ race*gender_trans + gender_trans*sexuality_queer + sexuality_queer*race,
            data = data_relevel, family = "binomial")
@@ -325,19 +330,22 @@ summary(insurance_anova)
 provider_anova <- anova(providerfit, providerfit_interact, test = "LRT") 
 summary(provider_anova)
 ```
-We ran a multiple regression for each health insurance access and health provider access conditional on gender, race, and sexuality. We saw that our referent group of white, cis, heterosexual individuals are 1.47 as likely to have health insurance than non-white, trans, non-heterosexual counterparts and 1.32 times as likely for access to a regular healthcare provider.
 
-Sexuality is a complicated variable to work with, given that the question posed in the survey offers 12 options that are not all mutually exclusive, yet the answer given must be only one of the above. Also, to retain all options given would overcomplicate and weaken the model. Therefore, we decided to distinguish between heterosexual and all other sexuality answers in our subsequent models. 
+We saw that our referent group of white, cis, heterosexual individuals are 4.29 times more likely to have health insurance than non-white, trans, non-heterosexual counterparts with a highly significant p value of less than 2e-16. White, cis, heterosexuals are also predicted to be 3.58 times more likely to have access to a regular healthcare provider than marginalized identities, with a significant p value of less than 2e-16. 
 
-In healthcare access, we found that the most negatively affected race group was Hispanic and the most negatively affected gender group was transgender individuals.  
+To talk about statistically significant predictors to health insurance access, we found that the most negatively affected race group was Hispanic (with a p value of 7.54e-05), followed by transgender (with a p value of 0.00439), followed by multiracial individuals (with a p value of 0.02782), and followed by native individuals (with a p value of 0.07731). 
 
-We conducted another multiple regression with interaction terms, in order to evaluate intersection of gender and race groups. 
+For statistically significant predictors in whether or not someone has access to a regular healthcare provider or not, we found that the most negatively affected race group was transgender (with a p value of 0.000175), followed by Hispanic (with a p value of 0.005906), and followed by black individuals (with a p value of 0.001949). 
+
+Both Hispanic and transgender groups are significantly disadvantaged to access to both health care and a healthcare provider. For the Hispanic race category, it may be explained that they are often disadvantaged in legal status and therefore legal protection, income, and health access in this case. Out of 188 non-citizens in this study, Hispanics number 57, the biggest race group of non-citizens. There are also many studies conducted about transgenders’ access to healthcare providers as determined by less knowledge of the provider on trans issues. To quote a study by Safer et al. called “Barriers to Health Care for Transgender Individuals,” “transgender patients report that lack of providers with expertise in transgender medicine represents the single largest component inhibiting access.” 
+
+(citation: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4802845/#R14)
+
+## ANOVA test, Step Down Test, and t-tests
 
 ```{r overall-anova}
 summary(aov(Q18C~Q25,data=data_filtered2))
 ```
-
-## ANOVA test, Step Down Test, and t-tests
 
 According to the overall ANOVA test conducted between sexuality and self-reported health outcomes, there are 2 groups that are shown to be statistically different than the other sexuality groups. A stepdown ANOVA was conducted to see which groups were statistically different than the rest. 
 
@@ -381,5 +389,6 @@ t.test(data_test$TwoSpirit, data_test$Straight)
 
 # Conclusion 
 
-We sought to answer the question: How do sexuality, race, and gender affect healthcare access? Our research yields the conclusion that minority identity groups do tend to have worse health care access than the majority groups. In healthcare access, we found that the most negatively affected race group was Hispanic and the most negatively affected gender group was transgender individuals. 
+We sought to answer the question: How do sexuality, race, and gender affect healthcare access? Our research yields the conclusion that minority identity groups do tend to have worse health care access than the majority groups. In healthcare access, we found that the most negatively affected race group was Hispanic and the most negatively affected gender group was transgender individuals.
+
 Our logistic regression model which included interaction variables did not fit the data better than our model which included single variables. As a result, our conclusions oppose our original hypothesis that those who exist at the intersection of marginalized minority groups in race, gender, and sexuality would have compounded impacts of inequality than if they were only representing one of the marginalized identities. While our results were statistically significant, we did have to make multiple simplifications in our data analysis which could have affected our models' goodness of fit.
